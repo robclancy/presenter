@@ -20,13 +20,19 @@ abstract class Presenter {
 	}
 
 	/**
-	 * Pass any unknown varible calls through to the injected object.
+	 * Pass any unknown varible calls to present{$variable} or fall through to the injected object.
 	 *
 	 * @param  string $var
 	 * @return mixed
 	 */
 	public function __get($var)
 	{
+		$method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $var)));
+		if (method_exists($this, $method))
+		{
+			return $this->$method;
+		}
+
 		return $this->object->$var;
 	}
 
