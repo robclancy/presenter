@@ -1,5 +1,6 @@
 <?php namespace Robbo\Presenter\View;
 
+use ArrayAccess;
 use IteratorAggregate;
 use Illuminate\View\View;
 use Robbo\Presenter\PresentableInterface;
@@ -33,7 +34,7 @@ class Environment extends BaseEnvironment {
 			{
 				$data[$key] = $value->getPresenter();
 			}
-			else if (is_array($value) OR $value instanceof IteratorAggregate)
+			else if (is_array($value) OR ($value instanceof IteratorAggregate AND $value instanceof ArrayAccess)
 			{
 				$data[$key] = $this->makePresentable($value);
 			}

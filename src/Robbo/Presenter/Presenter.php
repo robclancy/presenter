@@ -30,7 +30,7 @@ abstract class Presenter {
 		$method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $var)));
 		if (method_exists($this, $method))
 		{
-			return $this->$method;
+			return $this->$method();
 		}
 
 		return $this->object->$var;
