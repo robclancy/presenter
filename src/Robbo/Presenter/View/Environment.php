@@ -14,7 +14,7 @@ class Environment extends BaseEnvironment {
 	 * @param  array   $data
 	 * @return Illuminate\View\View
 	 */
-	public function make($view, array $data = array())
+	public function make($view, $data = array())
 	{
 		return parent::make($view, $this->makePresentable($data));
 	}
