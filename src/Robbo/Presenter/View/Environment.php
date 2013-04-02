@@ -34,7 +34,7 @@ class Environment extends BaseEnvironment {
 			{
 				$data[$key] = $value->getPresenter();
 			}
-			else if (is_array($value) OR ($value instanceof IteratorAggregate AND $value instanceof ArrayAccess)
+			else if (is_array($value) OR ($value instanceof IteratorAggregate AND $value instanceof ArrayAccess))
 			{
 				$data[$key] = $this->makePresentable($value);
 			}
