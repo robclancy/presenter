@@ -2,7 +2,6 @@
 
 use ArrayAccess;
 use IteratorAggregate;
-use Illuminate\View\View;
 use Robbo\Presenter\PresentableInterface;
 use Illuminate\View\Environment as BaseEnvironment;
 
@@ -17,24 +16,49 @@ class Environment extends BaseEnvironment {
 	 */
 	public function make($view, $data = array())
 	{
-		return parent::make($view, $this->makePresentable($data));
+		$path = $this->finder->find($view);
+
+		return new View($this, $this->getEngineFromPath($path), $view, $path, $this->recurseMakePresentable($data));
 	}
 
 	/**
-	 * Turn any PresenatableInterface'd objects into Presenters
+	 * Add a piece of shared data to the environment.
+	 *
+	 * @param  string  $key
+	 * @param  mixed   $value
+	 * @return void
+	 */
+	public function share($key, $value)
+	{
+		return parent::share($key, $this->makePresentable($value));
+	}
+
+	/**
+	 * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
+	 *
+	 * @param  mixed $value
+	 * @return mixed $value
+	*/
+	public function makePresentable($value)
+	{
+		return $value instanceof PresentableInterface ? $value->getPresenter() : $value;
+	}
+
+	/*
+	 * Recurse through arrays and objects making anything Presentable into Presenters
 	 *
 	 * @param  array $data
 	 * @return array $data
 	 */
-	protected function makePresentable($data)
+	protected function recurseMakePresentable($data)
 	{
 		foreach ($data AS $key => $value)
 		{
-			if ($value instanceof PresentableInterface)
+			if (is_array($value) OR ($value instanceof IteratorAggregate AND $value instanceof ArrayAccess))
 			{
-				$data[$key] = $value->getPresenter();
+				$data[$key] = $this->recurseMakePresentable($value);
 			}
-			else if (is_array($value) OR ($value instanceof IteratorAggregate AND $value instanceof ArrayAccess))
+			else
 			{
 				$data[$key] = $this->makePresentable($value);
 			}

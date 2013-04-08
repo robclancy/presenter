@@ -37,6 +37,13 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals($presenter->testMethod2(), 'testMethod2');
 		$this->assertEquals($presenter->testMethod3(), 'testMethod3');
 	}
+
+	public function testPresentVariableCalls()
+	{
+		$presenter = new PresenterStub(new PresenterStub2(new InjectStub));
+
+		$this->assertEquals($presenter->awesome, 'presenting you the awesome');
+	}
 }
 
 class InjectStub {
@@ -56,6 +63,11 @@ class PresenterStub extends Presenter {
 	public function testMethod2()
 	{
 		return 'testMethod2';
+	}
+
+	protected function presentAwesome()
+	{
+		return 'presenting you the awesome';
 	}
 }
 

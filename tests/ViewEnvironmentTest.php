@@ -2,16 +2,12 @@
 
 use Mockery as m;
 use Robbo\Presenter\Presenter;
-use Robbo\Presenter\PresentableInterface;
-use Robbo\Presenter\View\Environment;
+use Robbo\Presenter\View\View;
 use Illuminate\Support\Collection;
+use Robbo\Presenter\View\Environment;
+use Robbo\Presenter\PresentableInterface;
 
 class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
-
-	public function setUp()
-	{
-		$this->env = new EnvironmentStub;
-	}
 
 	public function tearDown()
 	{
@@ -20,45 +16,75 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 
 	public function testPresentableToPresenter()
 	{
-		$data = $this->env->testMakePresentable(array(
-			'string' => 'string',
-			'array' => array('test' => 'test'),
-			'presentable' => new PresentableStub
-		));
+		$presenter = $this->getEnvironment()->makePresentable(new PresentableStub);
 
-		$this->assertTrue($data['presentable'] instanceof EnvPresenterStub);
-	}	
+		$this->assertTrue($presenter instanceof Presenter);
+	}
 
-	public function testPresentablesInCollectionToPresenters()
+	public function testPresentablesToPresenters()
 	{
-		$data = $this->env->testMakePresentable(array(
+		$from = array(
 			'string' => 'string',
 			'array' => array('test' => 'test'),
+			'presentable' => new PresentableStub,
+			'recurseMe' => array(array('presentable' => new PresentableStub)),
+			'collection' => new Collection(array(
+				'presentable' => new PresentableStub
+			))
+		);
+
+		$to = $this->getEnvironment()->testRecurseMakePresentable($from);
+
+		$this->assertSame($from['string'], $to['string']);
+		$this->assertSame($from['array'], $to['array']);
+		$this->assertTrue($to['presentable'] instanceof Presenter);
+		$this->assertTrue($to['recurseMe'][0]['presentable'] instanceof Presenter);
+		$this->assertTrue($to['collection']['presentable'] instanceof Presenter);
+	}
+
+	public function testMakeView()
+	{
+		$data = array(
+			'meh' => 'zomg',
 			'presentable' => new PresentableStub,
 			'collection' => new Collection(array(
 				'presentable' => new PresentableStub
 			))
-		));
+		);
 
-		$this->assertTrue($data['presentable'] instanceof EnvPresenterStub);
-		$this->assertTrue($data['collection']['presentable'] instanceof EnvPresenterStub);
+		$env = $this->getEnvironment();
+		$env->finder->shouldReceive('find')->once()->andReturn('test');
+
+		$view = $env->make('test', $data);
+
+		$this->assertTrue($view instanceof View);
+		$this->assertSame($view['meh'], $data['meh']);
+		$this->assertTrue($view['presentable'] instanceof Presenter);
+		$this->assertTrue($view['collection']['presentable'] instanceof Presenter);
+	}
+
+	protected function getEnvironment()
+	{
+		return new EnvironmentStub(
+			m::mock('Illuminate\View\Engines\EngineResolver'),
+			m::mock('Illuminate\View\ViewFinderInterface'),
+			m::mock('Illuminate\Events\Dispatcher')
+		);
 	}
 }
 
 class EnvironmentStub extends Environment {
 
-	public function __construct()
+	public $finder;
+
+	public function testRecurseMakePresentable(array $data)
 	{
-		parent::__construct(
-			m::mock('Illuminate\View\Engines\EngineResolver'), 
-			m::mock('Illuminate\View\FileViewFinder'),
-			m::mock('Illuminate\Events\Dispatcher')
-		);
+		return $this->recurseMakePresentable($data);
 	}
 
-	public function testMakePresentable(array $data)
+	protected function getEngineFromPath($path)
 	{
-		return $this->makePresentable($data);
+		return m::mock('Illuminate\View\Engines\EngineInterface');
 	}
 }
 
@@ -70,5 +96,4 @@ class PresentableStub implements PresentableInterface {
 	}
 }
 
-class EnvPresenterStub extends Presenter {
-}
+class EnvPresenterStub extends Presenter {}
