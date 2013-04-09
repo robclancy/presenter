@@ -1,10 +1,11 @@
 {
     "name": "robclancy/presenter",
-    "description": "",
+    "description": "This is a simple class to help make a Presenter for your objects.",
+    "license": "DBAD",
     "authors": [
         {
             "name": "Robbo",
-            "email": "robert@mercenarydesign.net"
+            "email": "mail@robertclancy.net"
         }
     ],
     "require": {
