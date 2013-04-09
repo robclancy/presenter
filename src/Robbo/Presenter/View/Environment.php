@@ -18,7 +18,7 @@ class Environment extends BaseEnvironment {
 	{
 		$path = $this->finder->find($view);
 
-		return new View($this, $this->getEngineFromPath($path), $view, $path, $this->recurseMakePresentable($data));
+		return new View($this, $this->getEngineFromPath($path), $view, $path, $this->makePresentable($data));
 	}
 
 	/**
@@ -41,29 +41,19 @@ class Environment extends BaseEnvironment {
 	*/
 	public function makePresentable($value)
 	{
-		return $value instanceof PresentableInterface ? $value->getPresenter() : $value;
-	}
-
-	/*
-	 * Recurse through arrays and objects making anything Presentable into Presenters
-	 *
-	 * @param  array $data
-	 * @return array $data
-	 */
-	protected function recurseMakePresentable($data)
-	{
-		foreach ($data AS $key => $value)
+		if ($value instanceof PresentableInterface)
 		{
-			if (is_array($value) OR ($value instanceof IteratorAggregate AND $value instanceof ArrayAccess))
+			return $value->getPresenter();
+		}
+
+		if (is_array($value) OR ($value instanceof IteratorAggregate AND $value instanceof ArrayAccess))
+		{
+			foreach ($value AS $k => $v)
 			{
-				$data[$key] = $this->recurseMakePresentable($value);
-			}
-			else
-			{
-				$data[$key] = $this->makePresentable($value);
+				$value[$k] = $this->makePresentable($v);
 			}
 		}
 
-		return $data;
+		return $value;
 	}
 }

@@ -12,12 +12,17 @@
     },
     "require-dev": {
         "mockery/mockery": "0.7.2",
-        "illuminate/view": "dev-master",
+        "illuminate/view": "1.0.*",
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "psr-0": {
             "Robbo\\Presenter": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x"
         }
     },
     "minimum-stability": "dev"

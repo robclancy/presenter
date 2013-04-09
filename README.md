@@ -1,182 +1,169 @@
-## Presenter
+# Presenter
 
-Simple presenter to wrap and render objects. Designed to work with Laravel, but will also work as a stand-alone solution.
+This is a simple class to help make a `Presenter` for your objects. It also has little extras to work with Laravel to automate the creation of the Presenter if the `PresentableInterface` is implemented when passed into the `View`.
 
 [![Build Status](https://secure.travis-ci.org/robclancy/presenter.png)](http://travis-ci.org/robclancy/presenter)
 
-### Installation
+## Installation
 
 Add the following to the "require" section of your `composer.json` file:
 
 ```json
-	"robclancy/presenter": "dev-master"
+	"robclancy/presenter": "1.0.x"
 ```
 
-### Basic Usage
-The core idea is the relationship between two classes: your model full of data and a presenter which works as a sort of wrapper to help with your views.
-For instance, if you have a `User` object you might have a `UserPresenter` presenter to go with it. To use it all you do is `$userObject = new UserPresenter($userObject);`. 
-The `$userObject` will function the same unless a method is called that is a member of the `UserPresenter`. Another way to think of it is that any call that doesn't exist in the `UserPresenter` falls through to the original object. There are some full examples below.
+#### Extra Laravel Step
 
-### Usage Within Laravel
-Laravel has several shortcuts that you can use, but first you must add the Service Provider. Add the following to your `app/config/app.php`, `providers` array (has to be after the `ViewServiceProvider`):
+Add the following to your `app/config/app.php`, `providers` array (has to be after the `ViewServiceProvider`):
 
 ```php
 	'Robbo\Presenter\PresenterServiceProvider',
 ```
 
-Now you can implement the interface `Robbo\Presenter\PresentableInterface` on your models and when you do, the `View` will automatically turn your model into the defined presenter. So you will just pass your normal object to `View::make(...)` and it will handle the rest for use within your views. Also examples below.
+## Basic Usage
 
-You might also like to alias the classes so you don't have to write out the namespaces over and over. To do this add the following to your `app/config/app.php`, `aliases` array:
+The idea is to 'wrap' your object (generally a model) with a presenter to contain your view logic. This can either be done by simply creating methods in the presenter or you can make `present` methods for variables. For example calling `$presenter->name` will call `$presenter->presentName` if the method exists.
+
+#### Examples
+
+First our basic data model.
 ```php
-	'Presenter' 	=> 'Robbo\Presenter\Presenter',
-	'Presentable'	=> 'Robbo\Presenter\PresentableInterface',
-```
-
-### Examples
-Note: these examples use a made up `slugify` method
-
-**Example Model**
-```php
-// Assume this data is loaded into the model
-class User {
-
+class UserModel {
 	public $uniqueId = 1;
 
 	public $firstName = 'Bazza';
 
 	public $lastName = 'Pitt';
 
+	public $nickName = null;
+
 	public $email = 'email@bourbon.com';
 }
 ```
-	
-**Example Presenter**
-```php
-class UserPresenter extends Robbo\Presenter\Presenter {
-	
-	public function getUrl()
-	{
-		return 'members/'.slugify($this->firstName);
-	}
-}
-```
 
-**Example Controller**
-```php
-class UserController {
-
-	public function index()
-	{
-		$user = new User;
-
-		return $this->someViewMethod('view_name', ['user' => new UserPresenter($user)]);
-	}
-}
-```
-
-**Example View**
-```php
-<h2><? echo $user->firstName; ?></h2>
-
-<a href="<? echo $user->getUrl(); ?>">Link To This User</a>
-```
-
-### Advanced Example
-**Another Example Presenter**
-```php
-class AdminUserPresenter extends Robbo\Presenter\Presenter {
-
-	public function getEditUrl()
-	{
-		return 'members/'.$this->uniqueId.'/edit';
-	}
-}
-```
-
-**Example Controller Modified**
-```php
-class UserController {
-
-	public function index()
-	{
-		$user = new User;
-
-		$user = new UserPresenter($user);
-		$user = new AdminUserPresenter($user);
-
-		// $user will now contain all new methods/variables from both presenters
-
-		return $this->someViewMethod('view_name', ['user' => $user]);
-	}
-}
-```
-
-### Laravel Example
-**Example Model**
-```php
-use Robbo\Presenter\PresentableInterface;
-
-class Topic extends Eloquent implements PresentableInterface
-{
-	public static function recent($count = 5)
-	{
-		return static::with('author')->orderBy('created_at', 'desc')->take($count)->get();
-	}
-
-	public function author()
-	{
-		return $this->belongsTo('User', 'user_id');
-	}
-
-	public function tags()
-	{
-		return $this->hasMany('Tag');
-	}
-
-	public function getPresenter()
-	{
-		return new TopicPresenter($this);
-	}
-}
-```
-
-**Example Presenter**
+Now we don't want to bog down our views with logic for things like showing the full name if the nickname isn't set. So we use a presenter.
 ```php
 use Robbo\Presenter\Presenter;
 
-class TopicPresenter extends Presenter
-{
-	public function url()
+class UserPresenter extends Presenter {
+	
+	// This will be called when the 'name' variable is called on the object
+	public function presentName()
 	{
-		return URL::action('TopicController@show', [slugify($this->title).'.'.$this->id]);
-	}
+		// nickName here will fall through to the model, the same as calling $this->object->nickName, object being the model
+		if (is_null($this->nickName))
+		{
+			return $this->nickName;
+		}
 
-	public function publishedDate()
-	{
-		return date('d-m-y', strtotime($this->created_at));
+		return $this->firstName.' '.$this->lastName;
 	}
 }
 ```
 
-**Example Controller**
+Now instead of passing through an object of `UserModel` to your view you pass through `UserPresenter`. For example...
 ```php
-class TopicController extends Controller {
+class UserController {
+	
+	public function index()
+	{
+		$user = new UserModel;
+
+		// Before going through to the view we wrap this in the presenter
+		$user = new UserPresenter($user);
+
+		// .. pass through to view here ..
+	}
+}
+```
+Now instead of your view containing logic to check for a nick name or even your model doing the same you can just call name directly... `$user->name` will fall through to `$user->presentName()`.
+
+Also any other variables called that don't exist in the `Presenter` or don't have a `present{Variable}` method will fall through to the original object. So in our case here `$user->firstName` is going to return `Bazza`.
+
+Lastly as you would expect, creating new methods here can be a nice feature to take logic out of your views as well. For example you could make a `url($action)` method to link to things like edit and delete on the user. For example...
+
+```php
+
+use Robbo\Presenter\Presenter;
+
+class UserPresenter extends Presenter {
+	
+	public function url($action = '')
+	{
+		return 'users/'.$this->uniqueId.'/'.$action;
+	}
+}
+```
+
+Then link to various areas by going `$user->url('edit')` etc. However we would probably use `presentEditUrl` here instead, like so...
+```php
+
+use Robbo\Presenter\Presenter;
+
+class UserPresenter extends Presenter {
+	
+	public function url($action = '')
+	{
+		return 'users/'.$this->uniqueId.'/'.$action;
+	}
+
+	public function presentEditUrl()
+	{
+		return $this->url('edit');
+	}
+}
+```
+
+Now we can get the edit URL with `$user->editUrl;`. 
+
+That pretty much covers the use of this class, just simple little helpers.
+
+
+## Laravel Usage
+
+Everything works the same as above however if you use the `PresenterServiceProvider` explained in installation you can instead implement `Robbo\Presenter\PresentableInterface` on your models and creating the interface will happen automatically by your views everywhere.
+
+So the same `UserModel` example above would be modified to be...
+```php
+use Robbo\Presenter\PresentableInterface;
+
+class UserModel implements PresentableInterface {
+	public $uniqueId = 1;
+
+	public $firstName = 'Bazza';
+
+	public $lastName = 'Pitt';
+
+	public $nickName = null;
+
+	public $email = 'email@bourbon.com';
+
+	/**
+	 * Return a created presenter.
+	 *
+	 * @return Robbo\Presenter\Presenter
+	 */
+	public function getPresenter()
+	{
+		return new UserPresenter($this);
+	}
+}
+```
+
+Now instead of making the presenter in the controller the Laravel `View` objects will do it for you so your controllers don't change at all but you get the presenter in your view.
+
+So here is our Laravel Controller.
+```php
+
+class UserController extends Controller {
+	
 	public function getIndex()
 	{
-		$recentTopics = Topic::recent(100);
-
-		return View::make('topics/index', ['recentTopics' => $recentTopics]);
+		return View::make('user.index', [
+			'user' => new UserModel
+		]);
 	}
 }
 ```
 
-Note: between the above controller and getting the the view the `Topic` objects in the `$recentTopics` collection will be turned into the presenter by calling `->getPresenter()` from the model.
-
-**Example View**
-```html
-<ul>
-@foreach ($recentTopics AS $topic)
-	<li><a href="{{ $topic->url() }}">{{ $topic->title }}</a></li>
-@endforeach
-</ul>
-```
+Behind the scenes the `View` will detect the implemented `PresentableInterface` and convert the view into the `Presenter` by calling `getPresenter()`. This automatic presenter creation will also work with `View::share` and `View->with()`. It will also recursively make presenters in arrays or objects that are acting like arrays (Illuminate\Support\Collection for example).

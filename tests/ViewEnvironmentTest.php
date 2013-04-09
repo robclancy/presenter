@@ -33,7 +33,7 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 			))
 		);
 
-		$to = $this->getEnvironment()->testRecurseMakePresentable($from);
+		$to = $this->getEnvironment()->makePresentable($from);
 
 		$this->assertSame($from['string'], $to['string']);
 		$this->assertSame($from['array'], $to['array']);
@@ -76,11 +76,6 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 class EnvironmentStub extends Environment {
 
 	public $finder;
-
-	public function testRecurseMakePresentable(array $data)
-	{
-		return $this->recurseMakePresentable($data);
-	}
 
 	protected function getEngineFromPath($path)
 	{
