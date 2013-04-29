@@ -42,6 +42,16 @@ class PresenterServiceProvider extends ServiceProvider {
 	{
 		$me = $this;
 
+		/* Is this how I am meant to do this?
+		$this->app->extend('view', function($old, $app)
+		{
+			$env = new View\Environment($app['view.engine.resolver'], $app['view.finder'], $app['events']);
+			$env->setContainer($app);
+			$env->share('app', $app);
+
+			return $env;
+		});*/
+
 		$this->app['view'] = $this->app->share(function($app) use ($me)
 		{
 			// Next we need to grab the engine resolver instance that will be used by the

@@ -12,11 +12,14 @@ class Environment extends BaseEnvironment {
 	 *
 	 * @param  string  $view
 	 * @param  array   $data
+	 * @param  array   $mergeData
 	 * @return Illuminate\View\View
 	 */
-	public function make($view, $data = array())
+	public function make($view, $data = array(), $mergeData = array())
 	{
 		$path = $this->finder->find($view);
+
+		$data = array_merge($data, $mergeData);
 
 		return new View($this, $this->getEngineFromPath($path), $view, $path, $this->makePresentable($data));
 	}
