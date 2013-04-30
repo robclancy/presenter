@@ -26,5 +26,5 @@
             "dev-master": "1.0-dev"
         }
     },
-    "minimum-stability": "RC"
+    "minimum-stability": "dev"
 }
