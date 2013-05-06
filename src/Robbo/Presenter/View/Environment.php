@@ -31,7 +31,7 @@ class Environment extends BaseEnvironment {
 	 * @param  mixed   $value
 	 * @return void
 	 */
-	public function share($key, $value)
+	public function share($key, $value = null)
 	{
 		return parent::share($key, $this->makePresentable($value));
 	}
