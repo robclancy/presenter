@@ -19,7 +19,7 @@ class Environment extends BaseEnvironment {
 	{
 		$path = $this->finder->find($view);
 
-		$data = array_merge($this->parseData($data), $mergeData);
+		$data = array_merge($mergeData, $this->parseData($data));
 
 		return new View($this, $this->getEngineFromPath($path), $view, $path, $this->makePresentable($data));
 	}
