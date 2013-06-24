@@ -20,6 +20,16 @@ abstract class Presenter {
 	}
 
 	/**
+	 * Get the object we are wrapping.
+	 * 
+	 * @return mixed
+	 */
+	public function getObject()
+	{
+		return $this->object;
+	}
+
+	/**
 	 * Pass any unknown varible calls to present{$variable} or fall through to the injected object.
 	 *
 	 * @param  string $var
