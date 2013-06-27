@@ -51,7 +51,7 @@ class UserPresenter extends Presenter {
 	public function presentName()
 	{
 		// nickName here will fall through to the model, the same as calling $this->object->nickName, object being the model
-		if (is_null($this->nickName))
+		if ( ! is_null($this->nickName))
 		{
 			return $this->nickName;
 		}
