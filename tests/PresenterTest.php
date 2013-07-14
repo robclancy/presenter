@@ -9,6 +9,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 		$presenter = new PresenterStub(new InjectStub);
 
 		$this->assertEquals($presenter->testVar, 'testvar');
+		$this->assertEquals($presenter['testVar'], 'testvar');
 		$this->assertEquals($presenter->testVar2, 'testvar2');
 	}
 
@@ -43,7 +44,64 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 		$presenter = new PresenterStub(new PresenterStub2(new InjectStub));
 
 		$this->assertEquals($presenter->awesome, 'presenting you the awesome');
+		$this->assertEquals($presenter['awesome'], 'presenting you the awesome');
 	}
+
+	public function testArrayPresenterVariableCalls()
+	{
+		$presenter = new PresenterStub(['testVar' => 'testvar']);
+
+		$this->assertEquals($presenter->testVar, 'testvar');
+		$this->assertEquals($presenter['testVar'], 'testvar');
+		$this->assertEquals($presenter->testVar2, 'testvar2');
+	}
+
+	/**
+	 * @expectedException BadMethodCallException
+	 */
+	public function testArrayMethodCallException()
+	{
+		$presenter = new PresenterStub(['testVar' => 'testvar']);
+		$presenter->someMethod();
+	}
+
+	public function testArrayIsset()
+	{
+		$presenter = new PresenterStub(['testVar' => 'testvar']);
+
+		$this->assertTrue(isset($presenter['testVar']));
+		$this->assertFalse(isset($presenter['unsetVar']));
+
+		$presenter = new PresenterStub(new InjectStub);
+		$this->assertTrue(isset($presenter['unsetVar']));
+	}
+
+	public function testArraySet()
+	{
+		$presenter = new PresenterStub(['testVar' => 'testvar']);
+		$presenter['testNewVar'] = 'number 2';
+
+		$this->assertEquals($presenter['testNewVar'], 'number 2');
+		$this->assertEquals($presenter->testNewVar, 'number 2');
+	}
+
+	public function testArrayUnset()
+	{
+		$presenter = new PresenterStub(['testVar' => 'testvar']);
+
+		$this->assertEquals($presenter['testVar'], 'testvar');
+
+		unset($presenter['testVar']);
+		$this->assertFalse(isset($presenter['testVar']));
+
+		$presenter = new PresenterStub(new InjectStub);
+
+		$this->assertEquals($presenter->testVar, 'testvar');
+		
+		unset($presenter['testVar']);
+		$this->assertFalse(isset($presenter->testVar));
+	}
+
 }
 
 class InjectStub {
