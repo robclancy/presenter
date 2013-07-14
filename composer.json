@@ -1,6 +1,7 @@
 {
     "name": "robclancy/presenter",
     "description": "This is a simple class to help make a Presenter for your objects.",
+    "keywords": ["laravel", "decorator"],
     "license": "DBAD",
     "authors": [
         {
