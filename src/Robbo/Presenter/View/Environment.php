@@ -54,9 +54,9 @@ class Environment extends BaseEnvironment {
 			return $value->getPresenter();
 		}
 
-		if (is_array($value) OR ($value instanceof IteratorAggregate AND $value instanceof ArrayAccess))
+		if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess))
 		{
-			foreach ($value AS $k => $v)
+			foreach ($value as $k => $v)
 			{
 				$value[$k] = $this->makePresentable($v);
 			}
