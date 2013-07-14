@@ -11,11 +11,11 @@ This library adds a simple class to help make a `Presenter` for your objects or 
     - <a href="#manually">Manually</a>
     - <a href="#laravel-4">Laravel 4</a>
 - <a href="#usage">Usage</a>
-	- <a href="#general">General Usage</a>
+	- <a href="#general-usage">General Usage</a>
 	- <a href="#manually-initiate">Manually Initiate</a>
 	- <a href="#laravel-usage">Laravel Usage</a>
 	- <a href="#array-usage">Array Usage</a>
-- <a href="#changelog">Changelog</a>
+- <a href="#change-log">Change Log</a>
 - <a href="#license">License</a>
 
 ## Installation
@@ -56,9 +56,9 @@ Now presenters will automatically be created if using the <a href="#laravel-usag
 
 `Presenter` is a very simply class that overloads methods and variables so that you can add extra logic to your objects or arrays without adding view logic to areas like your models or controllers and also keeps any extra logic our of your views.
 
-### Basic Usage
+### General Usage
 
-If you have a model called `User` and want a nice pretty URL for when someone navigates to that URL, let's say `url.com/users/{id}-{username}`. Building that link could belong in many places, the most logical would be part of routing or a "step" before your view. Using a presenter is using the latter. Let's assume the `User` class simply has an `id` and `username` property. The presenter might look like this.
+If you have a custom URL for navigating to your users, let's say `url.com/users/{id}-{username}` you don't want to manually create that URL every time you link to a user. Building that link could belong in many places, the most logical would be part of routing or a "step" before your view. Using a presenter is using the latter. Let's assume the `User` class simply has an `id` and `username` property. The presenter might look like this.
 
 ```php
 

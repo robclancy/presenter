@@ -49,7 +49,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
 	public function testArrayPresenterVariableCalls()
 	{
-		$presenter = new PresenterStub(['testVar' => 'testvar']);
+		$presenter = new PresenterStub(array('testVar' => 'testvar'));
 
 		$this->assertEquals($presenter->testVar, 'testvar');
 		$this->assertEquals($presenter['testVar'], 'testvar');
@@ -61,13 +61,13 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 	 */
 	public function testArrayMethodCallException()
 	{
-		$presenter = new PresenterStub(['testVar' => 'testvar']);
+		$presenter = new PresenterStub(array('testVar' => 'testvar'));
 		$presenter->someMethod();
 	}
 
 	public function testArrayIsset()
 	{
-		$presenter = new PresenterStub(['testVar' => 'testvar']);
+		$presenter = new PresenterStub(array('testVar' => 'testvar'));
 
 		$this->assertTrue(isset($presenter['testVar']));
 		$this->assertFalse(isset($presenter['unsetVar']));
@@ -78,7 +78,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
 	public function testArraySet()
 	{
-		$presenter = new PresenterStub(['testVar' => 'testvar']);
+		$presenter = new PresenterStub(array('testVar' => 'testvar'));
 		$presenter['testNewVar'] = 'number 2';
 
 		$this->assertEquals($presenter['testNewVar'], 'number 2');
@@ -87,7 +87,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
 	public function testArrayUnset()
 	{
-		$presenter = new PresenterStub(['testVar' => 'testvar']);
+		$presenter = new PresenterStub(array('testVar' => 'testvar'));
 
 		$this->assertEquals($presenter['testVar'], 'testvar');
 
