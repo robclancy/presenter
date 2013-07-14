@@ -58,7 +58,7 @@ Now presenters will automatically be created if using the <a href="#laravel-usag
 
 ### General Usage
 
-If you have a custom URL for navigating to your users, let's say `url.com/users/{id}-{username}` you don't want to manually create that URL every time you link to a user. Building that link could belong in many places, the most logical would be part of routing or a "step" before your view. Using a presenter is using the latter. Let's assume the `User` class simply has an `id` and `username` property. The presenter might look like this.
+Let's say you have a list of users and you want to generate a link to the profile of each user. Many people would just build the URL in the view, or worse, in the controller. To separate this logic we instead use a presenter. Let's assume we have a `User` class which simply has an `id` and `username` property. The presenter might look like this.
 
 ```php
 
