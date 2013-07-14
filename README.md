@@ -126,7 +126,7 @@ $user = new UserPresenter($user);
 
 If you are using laravel and have followed the above installation instructions you can use the provided interface `Robbo\Presenter\PresentableInterface` to automate turning your model instances into a `Presenter` from both collections and when a model is sent directly to the view.
 
-What the service provider does is extend Laravel's view component with a step before the view object is created This step turns anything that implements the `PresentableInterface` into a `Presenter` by calling `->getPresenter()`. What this means is you don't need to add anything extra to your controllers to have your views using presenters for your objects.
+What the service provider does is extend Laravel's view component with a step before the view object is created. This step turns anything that implements the `PresentableInterface` into a `Presenter` by calling `->getPresenter()`. What this means is you don't need to add anything extra to your controllers to have your views using presenters for your objects.
 
 For Example.
 
