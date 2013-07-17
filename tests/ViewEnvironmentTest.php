@@ -16,7 +16,7 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 
 	public function testPresentableToPresenter()
 	{
-		$presenter = $this->getEnvironment()->makePresentable(new PresentableStub);
+		$presenter = Presenter::makePresentable(new PresentableStub);
 
 		$this->assertTrue($presenter instanceof Presenter);
 	}
@@ -33,7 +33,7 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 			))
 		);
 
-		$to = $this->getEnvironment()->makePresentable($from);
+		$to = Presenter::makePresentable($from);
 
 		$this->assertSame($from['string'], $to['string']);
 		$this->assertSame($from['array'], $to['array']);
