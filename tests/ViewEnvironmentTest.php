@@ -18,7 +18,7 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 	{
 		$presenter = Presenter::makePresentable(new PresentableStub);
 
-		$this->assertTrue($presenter instanceof Presenter);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $presenter);
 	}
 
 	public function testPresentablesToPresenters()
@@ -37,9 +37,9 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertSame($from['string'], $to['string']);
 		$this->assertSame($from['array'], $to['array']);
-		$this->assertTrue($to['presentable'] instanceof Presenter);
-		$this->assertTrue($to['recurseMe'][0]['presentable'] instanceof Presenter);
-		$this->assertTrue($to['collection']['presentable'] instanceof Presenter);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['recurseMe'][0]['presentable']);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['collection']['presentable']);
 	}
 
 	public function testMakeView()
@@ -57,10 +57,10 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 
 		$view = $env->make('test', $data);
 
-		$this->assertTrue($view instanceof View);
+		$this->assertInstanceOf('Robbo\Presenter\View\View', $view);
 		$this->assertSame($view['meh'], $data['meh']);
-		$this->assertTrue($view['presentable'] instanceof Presenter);
-		$this->assertTrue($view['collection']['presentable'] instanceof Presenter);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presentable']);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['collection']['presentable']);
 	}
 
 	protected function getEnvironment()
