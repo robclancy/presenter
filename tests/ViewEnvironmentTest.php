@@ -38,6 +38,8 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 		$this->assertSame($from['string'], $to['string']);
 		$this->assertSame($from['array'], $to['array']);
 		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']->presentableObject);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']->getPresentableObject());
 		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['recurseMe'][0]['presentable']);
 		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['collection']['presentable']);
 	}
@@ -60,6 +62,8 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 		$this->assertInstanceOf('Robbo\Presenter\View\View', $view);
 		$this->assertSame($view['meh'], $data['meh']);
 		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presentable']);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presentable']->presentableObject);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presentable']->getPresentableObject());
 		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['collection']['presentable']);
 	}
 
@@ -84,6 +88,26 @@ class EnvironmentStub extends Environment {
 }
 
 class PresentableStub implements PresentableInterface {
+
+	public $presentableObject;
+
+	public function __construct()
+	{
+		$this->presentableObject = new SecondPresentableStub;
+	}
+
+	public function getPresentableObject()
+	{
+		return $this->presentableObject;
+	}
+
+	public function getPresenter()
+	{
+		return new EnvPresenterStub($this);
+	}
+}
+
+class SecondPresentableStub implements PresentableInterface {
 
 	public function getPresenter()
 	{
