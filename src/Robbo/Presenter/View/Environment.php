@@ -1,7 +1,6 @@
 <?php namespace Robbo\Presenter\View;
 
-use ArrayAccess;
-use IteratorAggregate;
+use Robbo\Presenter\Presenter;
 use Robbo\Presenter\PresentableInterface;
 use Illuminate\View\Environment as BaseEnvironment;
 
@@ -21,7 +20,7 @@ class Environment extends BaseEnvironment {
 
 		$data = array_merge($mergeData, $this->parseData($data));
 
-		return new View($this, $this->getEngineFromPath($path), $view, $path, $this->makePresentable($data));
+		return new View($this, $this->getEngineFromPath($path), $view, $path, Presenter::makePresentable($data));
 	}
 
 	/**
@@ -35,33 +34,10 @@ class Environment extends BaseEnvironment {
 	{
 		if ( ! is_array($key))
 		{
-			return parent::share($key, $this->makePresentable($value));
+			return parent::share($key, Presenter::makePresentable($value));
 		}
 
-		return parent::share($this->makePresentable($key));
+		return parent::share(Presenter::makePresentable($key));
 	}
 
-	/**
-	 * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
-	 *
-	 * @param  mixed $value
-	 * @return mixed $value
-	*/
-	public function makePresentable($value)
-	{
-		if ($value instanceof PresentableInterface)
-		{
-			return $value->getPresenter();
-		}
-
-		if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess))
-		{
-			foreach ($value as $k => $v)
-			{
-				$value[$k] = $this->makePresentable($v);
-			}
-		}
-
-		return $value;
-	}
 }
