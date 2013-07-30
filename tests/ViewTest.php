@@ -26,6 +26,25 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
 		$this->assertTrue($view['presenter'] instanceof Presenter);
 	}
+
+	public function testWithMakesArrayPresentable()
+	{
+		$env = new EnvironmentStub(
+			m::mock('Illuminate\View\Engines\EngineResolver'),
+			m::mock('Illuminate\View\ViewFinderInterface'),
+			m::mock('Illuminate\Events\Dispatcher')
+		);
+
+		$view = new View($env, m::mock('Illuminate\View\Engines\EngineInterface'), 'test', 'test/path');
+
+		$data = array(
+			'presenter' => new ViewPresentableStub
+		);
+
+		$view->with($data);
+
+		$this->assertTrue($view['presenter'] instanceof Presenter);
+	}
 }
 
 class ViewPresentableStub implements PresentableInterface {
