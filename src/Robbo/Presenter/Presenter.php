@@ -135,4 +135,13 @@ abstract class Presenter implements \ArrayAccess {
     {
         return isset($this->object->$name);
     }
+
+    /**
+     * allow to unset parent properties
+     * @param string $name
+     */
+    public function __unset($name)
+    {
+        unset($this->object->$name);
+    }
 }
