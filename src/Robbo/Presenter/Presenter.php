@@ -125,4 +125,23 @@ abstract class Presenter implements \ArrayAccess {
 
 		throw new \BadMethodCallException("Method {$method} does not exist.");
 	}
+
+	/**
+     * don't break isset for parent object
+     * @param string $name
+     * @return boolean
+     */
+    public function __isset($name)
+    {
+        return isset($this->object->$name);
+    }
+
+    /**
+     * allow to unset parent properties
+     * @param string $name
+     */
+    public function __unset($name)
+    {
+        unset($this->object->$name);
+    }
 }
