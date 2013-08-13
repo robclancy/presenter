@@ -196,11 +196,11 @@ echo 'And again: ', $user['url'];
 
 ```
 
-### Extend the Decorator
+### Extending the Decorator
 
 As of 1.2.x I have added in a decorator object. This object takes care of turning an object that has `PresentableInterface` into a `Presenter`.
 This is by default done with Laravel's `View` objects. The reasoning behind a new class instead of the old way is so it can be better tested and also to allow you to extend it.
-Here is an example of extending the `Decorator` so that you can instead use a public variable on the object `$presenter` instead of using the `PresentableInterface` and `getPresenter()` method.
+Here is an example of extending the `Decorator` so that instead of using the `PresentableInterface` and `getPresenter()` method you can use a public variable on the object called `$presenter`.
 
 Note: these instructions are for Laravel usage.
 
