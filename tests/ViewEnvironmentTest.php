@@ -2,6 +2,7 @@
 
 use Mockery as m;
 use Robbo\Presenter\Presenter;
+use Robbo\Presenter\Decorator;
 use Robbo\Presenter\View\View;
 use Illuminate\Support\Collection;
 use Robbo\Presenter\View\Environment;
@@ -12,36 +13,6 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 	public function tearDown()
 	{
 		m::close();
-	}
-
-	public function testPresentableToPresenter()
-	{
-		$presenter = Presenter::makePresentable(new PresentableStub);
-
-		$this->assertInstanceOf('Robbo\Presenter\Presenter', $presenter);
-	}
-
-	public function testPresentablesToPresenters()
-	{
-		$from = array(
-			'string' => 'string',
-			'array' => array('test' => 'test'),
-			'presentable' => new PresentableStub,
-			'recurseMe' => array(array('presentable' => new PresentableStub)),
-			'collection' => new Collection(array(
-				'presentable' => new PresentableStub
-			))
-		);
-
-		$to = Presenter::makePresentable($from);
-
-		$this->assertSame($from['string'], $to['string']);
-		$this->assertSame($from['array'], $to['array']);
-		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']);
-		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']->presentableObject);
-		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']->getPresentableObject());
-		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['recurseMe'][0]['presentable']);
-		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['collection']['presentable']);
 	}
 
 	public function testMakeView()
@@ -72,7 +43,8 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 		return new EnvironmentStub(
 			m::mock('Illuminate\View\Engines\EngineResolver'),
 			m::mock('Illuminate\View\ViewFinderInterface'),
-			m::mock('Illuminate\Events\Dispatcher')
+			m::mock('Illuminate\Events\Dispatcher'),
+			new Decorator
 		);
 	}
 }

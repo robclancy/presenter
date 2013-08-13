@@ -1,8 +1,5 @@
 <?php namespace Robbo\Presenter;
 
-use ArrayAccess;
-use IteratorAggregate;
-
 abstract class Presenter implements \ArrayAccess {
 
 	/**
@@ -13,6 +10,14 @@ abstract class Presenter implements \ArrayAccess {
 	protected $object;
 
 	/**
+	 * The decorator instance so we can nest presenters. Underscores here to avoid conflicts
+	 * if a presenter or object has "decorator" as a variable.
+	 *
+	 * @var \Robbo\Presenter\Decorator
+	 */
+	protected static $__decorator;
+
+	/**
 	 * Create the Presenter and store the object we are presenting.
 	 *
 	 * @param mixed $object
@@ -20,6 +25,35 @@ abstract class Presenter implements \ArrayAccess {
 	public function __construct($object)
 	{
 		$this->object = $object;
+	}
+
+	/**
+	 * Get the decorator, if none exists then use the default. Underscores here to avoid conflicts
+	 * if a presenter or object needs to use "getDecorator".
+	 *
+	 * @var \Robbo\Presenter\Decorator
+	 */
+	protected function __getDecorator()
+	{
+		if (is_null(static::$__decorator))
+		{
+			static::$__decorator = new Decorator;
+		}
+
+		return static::$__decorator;
+	}
+
+	/**
+	 * This is so you can extend the decorator and inject it into the presenter at the class level so the
+	 * new decorator will be used for nested presenters. Method name should be "setDecorator" however 
+	 * like above I want to make conflicts less likely.
+	 *
+	 * @param  \Robbo\Presenter\Decorator
+	 * @return void
+	 */
+	public static function setExtendedDecorator(Decorator $decorator)
+	{
+		static::$__decorator = $decorator;
 	}
 
 	/**
@@ -109,9 +143,7 @@ abstract class Presenter implements \ArrayAccess {
 			return $this->$method();
 		}
 
-		$value = is_array($this->object) ? $this->object[$var] : $this->object->$var;
-
-		return static::makePresentable($value);
+		return $this->__getDecorator()->decorate(is_array($this->object) ? $this->object[$var] : $this->object->$var);
 	}
 
 	/**
@@ -127,7 +159,7 @@ abstract class Presenter implements \ArrayAccess {
 		{
 			$value = call_user_func_array(array($this->object, $method), $arguments);
 
-			return static::makePresentable($value);
+			return $this->__getDecorator()->decorate($value);
 		}
 
 		throw new \BadMethodCallException("Method {$method} does not exist.");
@@ -164,29 +196,5 @@ abstract class Presenter implements \ArrayAccess {
 
         unset($this->object->$name);
     }
-
-    /*
-	 * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
-	 *
-	 * @param  mixed $value
-	 * @return mixed $value
-	*/
-	public static function makePresentable($value)
-	{
-		if ($value instanceof PresentableInterface)
-		{
-			return $value->getPresenter();
-		}
-
-		if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess))
-		{
-			foreach ($value as $k => $v)
-			{
-				$value[$k] = static::makePresentable($v);
-			}
-		}
-
-		return $value;
-	}
 
 }

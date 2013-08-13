@@ -28,7 +28,29 @@ class PresenterServiceProvider extends ServiceProvider {
 	 */
 	public function register()
 	{
+		$this->registerDecorator();
+
 		$this->registerEnvironment();
+	}
+
+	/**
+	 * Register the decorator. If you want to extend the decorator you would basically copy
+	 * what this method does in start/global.php or your own service provider.
+	 *
+	 * @return void
+	 */
+	public function registerDecorator()
+	{
+		$this->app['presenter.decorator'] = $this->app->share(function($app)
+		{
+			$decorator = new Decorator;
+
+			// This isn't really doing anything here however if you want to extend the decorator 
+			// with your own instance then you need to do it like this in your own service
+			// provider or in start/global.php.
+			Presenter::setExtendedDecorator($decorator);
+			return $decorator;
+		});
 	}
 
 	/**
@@ -40,19 +62,7 @@ class PresenterServiceProvider extends ServiceProvider {
 	 */
 	public function registerEnvironment()
 	{
-		$me = $this;
-
-		/* Is this how I am meant to do this?
-		$this->app->extend('view', function($old, $app)
-		{
-			$env = new View\Environment($app['view.engine.resolver'], $app['view.finder'], $app['events']);
-			$env->setContainer($app);
-			$env->share('app', $app);
-
-			return $env;
-		});*/
-
-		$this->app['view'] = $this->app->share(function($app) use ($me)
+		$this->app['view'] = $this->app->share(function($app)
 		{
 			// Next we need to grab the engine resolver instance that will be used by the
 			// environment. The resolver will be used by an environment to get each of
@@ -61,7 +71,7 @@ class PresenterServiceProvider extends ServiceProvider {
 
 			$finder = $app['view.finder'];
 
-			$env = new View\Environment($resolver, $finder, $app['events']);
+			$env = new View\Environment($resolver, $finder, $app['events'], $app['presenter.decorator']);
 
 			// We will also set the container instance on this view environment since the
 			// view composers may be classes registered in the container, which allows
