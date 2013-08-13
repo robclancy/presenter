@@ -16,9 +16,9 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 
 	public function testPresentableToPresenter()
 	{
-		$presenter = $this->getEnvironment()->makePresentable(new PresentableStub);
+		$presenter = Presenter::makePresentable(new PresentableStub);
 
-		$this->assertTrue($presenter instanceof Presenter);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $presenter);
 	}
 
 	public function testPresentablesToPresenters()
@@ -33,13 +33,15 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 			))
 		);
 
-		$to = $this->getEnvironment()->makePresentable($from);
+		$to = Presenter::makePresentable($from);
 
 		$this->assertSame($from['string'], $to['string']);
 		$this->assertSame($from['array'], $to['array']);
-		$this->assertTrue($to['presentable'] instanceof Presenter);
-		$this->assertTrue($to['recurseMe'][0]['presentable'] instanceof Presenter);
-		$this->assertTrue($to['collection']['presentable'] instanceof Presenter);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']->presentableObject);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['presentable']->getPresentableObject());
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['recurseMe'][0]['presentable']);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $to['collection']['presentable']);
 	}
 
 	public function testMakeView()
@@ -57,10 +59,12 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
 
 		$view = $env->make('test', $data);
 
-		$this->assertTrue($view instanceof View);
+		$this->assertInstanceOf('Robbo\Presenter\View\View', $view);
 		$this->assertSame($view['meh'], $data['meh']);
-		$this->assertTrue($view['presentable'] instanceof Presenter);
-		$this->assertTrue($view['collection']['presentable'] instanceof Presenter);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presentable']);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presentable']->presentableObject);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presentable']->getPresentableObject());
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['collection']['presentable']);
 	}
 
 	protected function getEnvironment()
@@ -84,6 +88,26 @@ class EnvironmentStub extends Environment {
 }
 
 class PresentableStub implements PresentableInterface {
+
+	public $presentableObject;
+
+	public function __construct()
+	{
+		$this->presentableObject = new SecondPresentableStub;
+	}
+
+	public function getPresentableObject()
+	{
+		return $this->presentableObject;
+	}
+
+	public function getPresenter()
+	{
+		return new EnvPresenterStub($this);
+	}
+}
+
+class SecondPresentableStub implements PresentableInterface {
 
 	public function getPresenter()
 	{
