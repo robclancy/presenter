@@ -1,5 +1,8 @@
 <?php namespace Robbo\Presenter;
 
+use ArrayAccess;
+use IteratorAggregate;
+
 abstract class Presenter implements \ArrayAccess {
 
 	/**
@@ -106,7 +109,9 @@ abstract class Presenter implements \ArrayAccess {
 			return $this->$method();
 		}
 
-		return is_array($this->object) ? $this->object[$var] : $this->object->$var;
+		$value = is_array($this->object) ? $this->object[$var] : $this->object->$var;
+
+		return static::makePresentable($value);
 	}
 
 	/**
@@ -120,7 +125,9 @@ abstract class Presenter implements \ArrayAccess {
 	{
 		if (is_object($this->object))
 		{
-			return call_user_func_array(array($this->object, $method), $arguments);
+			$value = call_user_func_array(array($this->object, $method), $arguments);
+
+			return static::makePresentable($value);
 		}
 
 		throw new \BadMethodCallException("Method {$method} does not exist.");
@@ -144,4 +151,28 @@ abstract class Presenter implements \ArrayAccess {
     {
         unset($this->object->$name);
     }
+
+    /*
+	 * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
+	 *
+	 * @param  mixed $value
+	 * @return mixed $value
+	*/
+	public static function makePresentable($value)
+	{
+		if ($value instanceof PresentableInterface)
+		{
+			return $value->getPresenter();
+		}
+
+		if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess))
+		{
+			foreach ($value as $k => $v)
+			{
+				$value[$k] = static::makePresentable($v);
+			}
+		}
+
+		return $value;
+	}
 }
