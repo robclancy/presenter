@@ -16,14 +16,9 @@ class View extends BaseView {
 	{
 		if (is_array($key))
 		{
-			foreach ($key as $name => $value) {
-				$key[$name] = Presenter::makePresentable($value);
-			}
-			return parent::with($key);
+			return parent::with(Presenter::makePresentable($key));
 		}
-		else
-		{
-			return parent::with($key, Presenter::makePresentable($value));
-		}
+
+		return parent::with($key, Presenter::makePresentable($value));
 	}
 }

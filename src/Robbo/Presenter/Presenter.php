@@ -134,21 +134,34 @@ abstract class Presenter implements \ArrayAccess {
 	}
 
 	/**
-     * don't break isset for parent object
-     * @param string $name
+     * Allow ability to run isset() on a variable
+     *
+     * @param  string $name
      * @return boolean
      */
     public function __isset($name)
     {
+    	if (is_array($this->object))
+    	{
+    		return isset($this->object[$name]);
+    	}
+
         return isset($this->object->$name);
     }
 
     /**
-     * allow to unset parent properties
+     * Allow to unset a variable through the persenter
+     *
      * @param string $name
      */
     public function __unset($name)
     {
+    	if (is_array($this->object))
+    	{
+    		unset($this->object[$name]);
+    		return;
+    	}
+
         unset($this->object->$name);
     }
 

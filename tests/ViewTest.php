@@ -24,7 +24,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
 		$view->with('presenter', new ViewPresentableStub);
 
-		$this->assertTrue($view['presenter'] instanceof Presenter);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presenter']);
 	}
 
 	public function testWithMakesArrayPresentable()
@@ -43,7 +43,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
 		$view->with($data);
 
-		$this->assertTrue($view['presenter'] instanceof Presenter);
+		$this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presenter']);
 	}
 }
 
