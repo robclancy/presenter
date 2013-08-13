@@ -7,7 +7,8 @@ class DecoratorTest extends PHPUnit_Framework_TestCase {
 
     public function testPresentableToPresenter()
     {
-        $presenter = (new Decorator)->decorate(new PresentableStub);
+        $decorator = new Decorator;
+        $presenter = $decorator->decorate(new PresentableStub);
 
         $this->assertInstanceOf('Robbo\Presenter\Presenter', $presenter);
     }
@@ -24,7 +25,8 @@ class DecoratorTest extends PHPUnit_Framework_TestCase {
             ))
         );
 
-        $to = (new Decorator)->decorate($from);
+        $decorator = new Decorator;
+        $to = $decorator->decorate($from);
 
         $this->assertSame($from['string'], $to['string']);
         $this->assertSame($from['array'], $to['array']);
