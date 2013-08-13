@@ -15,6 +15,7 @@ This library adds a simple class to help make a `Presenter` for your objects or 
 	- <a href="#manually-initiate">Manually Initiate</a>
 	- <a href="#laravel-usage">Laravel Usage</a>
 	- <a href="#array-usage">Array Usage</a>
+	- <a href="#extending-the-decorator">Extending the Decorator</a>
 - <a href="#change-log">Change Log</a>
 - <a href="#license">License</a>
 
@@ -195,7 +196,78 @@ echo 'And again: ', $user['url'];
 
 ```
 
+### Extend the Decorator
+
+As of 1.2.x I have added in a decorator object. This object takes care of turning an object that has `PresentableInterface` into a `Presenter`.
+This is by default done with Laravel's `View` objects. The reasoning behind a new class instead of the old way is so it can be better tested and also to allow you to extend it.
+Here is an example of extending the `Decorator` so that you can instead use a public variable on the object `$presenter` instead of using the `PresentableInterface` and `getPresenter()` method.
+
+Note: these instructions are for Laravel usage.
+
+First extend the decorator...
+
+```php
+
+use Robbo\Presenter\Decorator as BaseDecorator;
+
+class Decorator extends BaseDecorator {
+	
+	/*
+     * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
+     *
+     * @param  mixed $value
+     * @return mixed $value
+    */
+    public function decorate($value)
+    {
+    	if (is_object($value) and isset($value->presenter))
+    	{
+    		$presenter = $value->presenter;
+    		return new $presenter;
+    	}
+
+    	return parent::decorate($value);
+    }
+}
+```
+
+And then to use your new decorator either add the following to `start/global.php` or into your own service provider.
+
+```php
+
+// In start/global.php
+
+App::make('presenter.decorator', App::share(function($app)
+{
+	$decorator = new Decorator;
+
+	Robbo\Presenter\Presenter::setExtendedDecorator($decorator);
+	return $decorator;
+});
+
+// In a service provider's 'register' method
+
+$this->app['presenter.decorator'] = $this->app->share(function($app)
+{
+	$decorator = new Decorator;
+
+	Robbo\Presenter\Presenter::setExtendedDecorator($decorator);
+	return $decorator;
+});
+
+
+```
+
+And that is all there is to it. You can easily change things to be more automated for creating presenters using this method.
+
+
 ## Change Log
+
+### 1.2.0
+- presenters can now be nested, thanks [https://github.com/robclancy/presenter/pull/10](alexwhitman)
+- added support for using Laravel's `View::with(array here)`, thanks [https://github.com/robclancy/presenter/pull/14](skovachev)
+- added ability to use `isset(...)` and `unset(...)` on presenter variables, thanks [https://github.com/robclancy/presenter/pull/15](nsbucky)
+- added a new decorator for creating the presenter objects. This makes it so you can <a href="#extending-the-decorator">extend what happens when decorating an object</a> easily
 
 ### 1.1.0
 - the Presenter class now implements ArrayAccess
