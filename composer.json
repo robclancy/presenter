@@ -1,7 +1,7 @@
 {
     "name": "robclancy/presenter",
-    "description": "This is a simple class to help make a Presenter for your objects.",
-    "keywords": ["laravel", "decorator"],
+    "description": "This is a simple library to help make a Presenter for your objects.",
+    "keywords": ["laravel", "presenter", "decorator"],
     "license": "DBAD",
     "authors": [
         {
@@ -24,8 +24,8 @@
     },
     "extra": {
         "branch-alias": {
-            "dev-master": "1.1-dev"
+            "dev-master": "1.2-dev"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "stable"
 }
