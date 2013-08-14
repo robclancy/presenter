@@ -1,67 +1,81 @@
 <?php namespace Robbo\Presenter\View;
 
-use ArrayAccess;
-use IteratorAggregate;
+use Robbo\Presenter\Presenter;
+use Robbo\Presenter\Decorator;
+use Illuminate\Events\Dispatcher;
+use Illuminate\View\ViewFinderInterface;
 use Robbo\Presenter\PresentableInterface;
+use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Environment as BaseEnvironment;
 
 class Environment extends BaseEnvironment {
 
-	/**
-	 * Get a evaluated view contents for the given view.
-	 *
-	 * @param  string  $view
-	 * @param  array   $data
-	 * @param  array   $mergeData
-	 * @return Illuminate\View\View
-	 */
-	public function make($view, $data = array(), $mergeData = array())
-	{
-		$path = $this->finder->find($view);
+    /**
+     * Used for "decorating" objects to have presenters.
+     *
+     * @var \Robbo\Presenter\Decorator
+     */
+    protected $presenterDecorator;
 
-		$data = array_merge($mergeData, $this->parseData($data));
+    /**
+     * Create a new view environment instance.
+     *
+     * @param  \Illuminate\View\Engines\EngineResolver  $engines
+     * @param  \Illuminate\View\ViewFinderInterface  $finder
+     * @param  \Illuminate\Events\Dispatcher  $events
+     * @param  \Robbo\Presenter\Decorator  $decorator
+     * @return void
+     */
+    public function __construct(EngineResolver $engines, ViewFinderInterface $finder, Dispatcher $events, Decorator $decorator)
+    {
+        $this->presenterDecorator = $decorator;
 
-		return new View($this, $this->getEngineFromPath($path), $view, $path, $this->makePresentable($data));
-	}
+        parent::__construct($engines, $finder, $events);
+    }
 
-	/**
-	 * Add a piece of shared data to the environment.
-	 *
-	 * @param  string  $key
-	 * @param  mixed   $value
-	 * @return void
-	 */
-	public function share($key, $value = null)
-	{
-		if ( ! is_array($key))
-		{
-			return parent::share($key, $this->makePresentable($value));
-		}
+    /**
+     * Get a evaluated view contents for the given view.
+     *
+     * @param  string  $view
+     * @param  array   $data
+     * @param  array   $mergeData
+     * @return Illuminate\View\View
+     */
+    public function make($view, $data = array(), $mergeData = array())
+    {
+        $path = $this->finder->find($view);
 
-		return parent::share($this->makePresentable($key));
-	}
+        $data = array_merge($mergeData, $this->parseData($data));
 
-	/**
-	 * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
-	 *
-	 * @param  mixed $value
-	 * @return mixed $value
-	*/
-	public function makePresentable($value)
-	{
-		if ($value instanceof PresentableInterface)
-		{
-			return $value->getPresenter();
-		}
+        return new View($this, $this->getEngineFromPath($path), $view, $path, $this->decorate($data));
+    }
 
-		if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess))
-		{
-			foreach ($value as $k => $v)
-			{
-				$value[$k] = $this->makePresentable($v);
-			}
-		}
+    /**
+     * Add a piece of shared data to the environment.
+     *
+     * @param  string  $key
+     * @param  mixed   $value
+     * @return void
+     */
+    public function share($key, $value = null)
+    {
+        if ( ! is_array($key))
+        {
+            return parent::share($key, $this->decorate($value));
+        }
 
-		return $value;
-	}
+        return parent::share($this->decorate($key));
+    }
+
+    /**
+     * Decorate an object with a presenter.
+     *
+     * @param  mixed $value
+     * @return mixed
+     */
+    public function decorate($value)
+    {
+        return $this->presenterDecorator->decorate($value);
+    }
+
 }

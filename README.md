@@ -1,6 +1,6 @@
 # Presenter
 
-This library adds a simple class to help make a `Presenter` for your objects or arrays. It also has little extras for use within Laravel with minimal extra code in your controllers (in most cases no extra code).
+This library provides a simple class to help make a `Presenter` for your objects or arrays. It also has little extras for use within Laravel with minimal extra code in your controllers (in most cases no extra code).
 
 [![Build Status](https://secure.travis-ci.org/robclancy/presenter.png)](http://travis-ci.org/robclancy/presenter)
 
@@ -15,6 +15,7 @@ This library adds a simple class to help make a `Presenter` for your objects or 
 	- <a href="#manually-initiate">Manually Initiate</a>
 	- <a href="#laravel-usage">Laravel Usage</a>
 	- <a href="#array-usage">Array Usage</a>
+	- <a href="#extending-the-decorator">Extending the Decorator</a>
 - <a href="#change-log">Change Log</a>
 - <a href="#license">License</a>
 
@@ -195,29 +196,100 @@ echo 'And again: ', $user['url'];
 
 ```
 
+### Extending the Decorator
+
+As of 1.2.x I have added in a decorator object. This object takes care of turning an object that has `PresentableInterface` into a `Presenter`. 
+By default, this is done with Laravel's `View` objects. The reasoning behind a new class instead of the previous implementation is so it can be better tested and also to allow you to extend it. 
+Here is an example of extending the `Decorator` so that instead of using the `PresentableInterface` and `getPresenter()` method you can use a public variable on the object called `$presenter`.
+
+Note: these instructions are for Laravel usage.
+
+First extend the decorator...
+
+```php
+
+use Robbo\Presenter\Decorator as BaseDecorator;
+
+class Decorator extends BaseDecorator {
+	
+	/*
+     * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
+     *
+     * @param  mixed $value
+     * @return mixed $value
+    */
+    public function decorate($value)
+    {
+    	if (is_object($value) and isset($value->presenter))
+    	{
+    		$presenter = $value->presenter;
+    		return new $presenter;
+    	}
+
+    	return parent::decorate($value);
+    }
+}
+```
+
+To use your new decorator either add the following to `start/global.php` or into your own service provider.
+
+```php
+
+// In start/global.php
+
+App::make('presenter.decorator', App::share(function($app)
+{
+	$decorator = new Decorator;
+
+	Robbo\Presenter\Presenter::setExtendedDecorator($decorator);
+	return $decorator;
+});
+
+// In a service provider's 'register' method
+
+$this->app['presenter.decorator'] = $this->app->share(function($app)
+{
+	$decorator = new Decorator;
+
+	Robbo\Presenter\Presenter::setExtendedDecorator($decorator);
+	return $decorator;
+});
+
+
+```
+
+And that is all there is to it. You can easily automate the creation of presenters to suit your workflow using this method.
+
+
 ## Change Log
 
-### 1.1.0
+#### 1.2.0
+- presenters can now be nested, thanks [alexwhitman](https://github.com/robclancy/presenter/pull/10)
+- added support for using Laravel's `View::with(array here)`, thanks [skovachev](https://github.com/robclancy/presenter/pull/14)
+- added ability to use `isset(...)` and `unset(...)` on presenter variables, thanks [nsbucky](https://github.com/robclancy/presenter/pull/15)
+- added a new decorator for creating the presenter objects. This makes it so you can <a href="#extending-the-decorator">extend what happens when decorating an object</a> easily
+
+#### 1.1.0
 - the Presenter class now implements ArrayAccess
 - added ability to use an array as your internal data
 
 
-### 1.0.2
+#### 1.0.2
 
 - fixed bug caused by laravel update
 - added smarter converting of presenters from PresentableInterface'd objects
 - added object getter `getObject` to retrieve the internal object
 
 
-### 1.0.1
+#### 1.0.1
 
 - fixed bug caused by laravel update
 
-### 1.0.0
+#### 1.0.0
 
 - Initial Release
 
 
 ### License
 
-Presenter is released under the [http://www.dbad-license.org/](DBAD) license. Do what you want just **d**on't **b**e **a** **d**ick.
+Presenter is released under the [DBAD](http://www.dbad-license.org) license. Do what you want just **d**on't **b**e **a** **d**ick.
