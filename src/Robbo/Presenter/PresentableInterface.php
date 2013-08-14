@@ -2,10 +2,10 @@
 
 interface PresentableInterface {
 
-	/**
-	 * Return a created presenter.
-	 *
-	 * @return Robbo\Presenter\Presenter
-	 */
-	public function getPresenter();
+    /**
+     * Return a created presenter.
+     *
+     * @return Robbo\Presenter\Presenter
+     */
+    public function getPresenter();
 }
