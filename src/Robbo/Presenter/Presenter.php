@@ -66,6 +66,15 @@ abstract class Presenter implements \ArrayAccess {
         return $this->object;
     }
 
+    /**
+     * Convert the object to an array.
+     *
+     * @return array
+     */
+    public function toArray() {
+        return $this->object->toArray();
+    }
+
     /*
      * This will be called when isset() is called via array access.
      *
