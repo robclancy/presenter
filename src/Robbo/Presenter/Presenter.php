@@ -1,6 +1,8 @@
 <?php namespace Robbo\Presenter;
 
-abstract class Presenter implements \ArrayAccess {
+use Illuminate\Support\Contracts\ArrayableInterface;
+
+abstract class Presenter implements \ArrayAccess, ArrayableInterface {
 
     /**
      * The object injected on Presenter construction.
