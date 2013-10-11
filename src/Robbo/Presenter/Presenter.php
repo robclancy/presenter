@@ -1,6 +1,8 @@
 <?php namespace Robbo\Presenter;
 
-abstract class Presenter implements \ArrayAccess {
+use Illuminate\Support\Contracts\ArrayableInterface;
+
+abstract class Presenter implements \ArrayAccess, ArrayableInterface {
 
     /**
      * The object injected on Presenter construction.
@@ -64,6 +66,15 @@ abstract class Presenter implements \ArrayAccess {
     public function getObject()
     {
         return $this->object;
+    }
+
+    /**
+     * Convert the object to an array.
+     *
+     * @return array
+     */
+    public function toArray() {
+        return $this->object->toArray();
     }
 
     /*
