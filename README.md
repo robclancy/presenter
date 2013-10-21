@@ -26,7 +26,7 @@ This library provides a simple class to help make a `Presenter` for your objects
 Add `robclancy/presenter` to the "require" section of your `composer.json` file.
 
 ```json
-	"robclancy/presenter": "1.1.*"
+	"robclancy/presenter": "dev-master"
 ```
 
 Run `composer update` to get the latest version of the package.
