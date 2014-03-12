@@ -72,7 +72,7 @@ class UserPresenter extends Robbo\Presenter\Presenter {
 }
 ```
 
-Now our view should receive an instance of this presenter which would be created with something like `$user = new PresenterUser(new User);`. If we want to link to the users page all we have to do is call `$user->url()`. Now you have good separation of logic and an easy little class you can modify to add properties to your `User` in all areas.
+Now our view should receive an instance of this presenter which would be created with something like `$user = new UserPresenter(new User);`. If we want to link to the users page all we have to do is call `$user->url()`. Now you have good separation of logic and an easy little class you can modify to add properties to your `User` in all areas.
 However you might not want to be calling methods like this, it could be inconsistant with what you are doing or you might want the code to look a little cleaner. That is where methods with the `present` prefix come in. All we do is update the presenter to the following.
 
 ```php
