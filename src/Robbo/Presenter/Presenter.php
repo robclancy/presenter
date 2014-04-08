@@ -77,6 +77,12 @@ abstract class Presenter implements \ArrayAccess {
         // We only check isset on the array, if it is an object we return true as the object could be overloaded
         if (is_array($this->object))
         {
+            if ($method = $this->getPresentMethodForVariable($offset))
+            {
+                $result = $this->$method();
+                return isset($result);
+            }
+
             return isset($this->object[$offset]);
         }
 
@@ -172,6 +178,12 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __isset($name)
     {
+        if ($method = $this->getPresentMethodForVariable($name))
+        {
+            $result = $this->$method();
+            return isset($result);
+        }
+
         if (is_array($this->object))
         {
             return isset($this->object[$name]);
