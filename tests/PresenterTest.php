@@ -71,9 +71,19 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
         $this->assertTrue(isset($presenter['testVar']));
         $this->assertFalse(isset($presenter['unsetVar']));
+        $this->assertTrue(isset($presenter['awesome']));
 
         $presenter = new PresenterStub(new InjectStub);
         $this->assertTrue(isset($presenter['unsetVar']));
+    }
+
+    public function testObjectIsset()
+    {
+        $presenter = new PresenterStub(new InjectStub);
+
+        $this->assertTrue(isset($presenter->testVar));
+        $this->assertTrue(isset($presenter->awesome));
+        $this->assertFalse(isset($presenter->unsetVar));
     }
 
     public function testArraySet()

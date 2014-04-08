@@ -77,6 +77,12 @@ abstract class Presenter implements \ArrayAccess {
         // We only check isset on the array, if it is an object we return true as the object could be overloaded
         if (is_array($this->object))
         {
+            if ($method = $this->getPresentMethodForVariable($offset))
+            {
+                $result = $this->$method();
+                return isset($result);
+            }
+
             return isset($this->object[$offset]);
         }
 
@@ -137,8 +143,7 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __get($var)
     {
-        $method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $var)));
-        if (method_exists($this, $method))
+        if ($method = $this->getPresentMethodForVariable($var))
         {
             return $this->$method();
         }
@@ -173,6 +178,12 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __isset($name)
     {
+        if ($method = $this->getPresentMethodForVariable($name))
+        {
+            $result = $this->$method();
+            return isset($result);
+        }
+
         if (is_array($this->object))
         {
             return isset($this->object[$name]);
@@ -195,6 +206,23 @@ abstract class Presenter implements \ArrayAccess {
         }
 
         unset($this->object->$name);
+    }
+
+    /**
+     * Fetch the 'present' method name for the given variable.
+     *
+     * @param  string      $var Variable name
+     * @return string|null      Present method name, or null if method does not exist
+     */
+    private function getPresentMethodForVariable($var)
+    {
+        $method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $var)));
+
+        if (method_exists($this, $method)) {
+            return $method;
+        } else {
+            return null;
+        }
     }
 
 }
