@@ -77,7 +77,7 @@ abstract class Presenter implements \ArrayAccess {
         // We only check isset on the array, if it is an object we return true as the object could be overloaded
         if ( ! is_array($this->object)) return true;
 
-        if ($method = $this->getPresentMethodForVariable($offset))
+        if ($method = $this->getPresenterMethodFromVariable($offset))
         {
             $result = $this->$method();
             return isset($result);
@@ -140,7 +140,7 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __get($var)
     {
-        if ($method = $this->getPresentMethodForVariable($var))
+        if ($method = $this->getPresenterMethodFromVariable($var))
         {
             return $this->$method();
         }
@@ -175,7 +175,7 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __isset($name)
     {
-        if ($method = $this->getPresentMethodForVariable($name))
+        if ($method = $this->getPresenterMethodFromVariable($name))
         {
             $result = $this->$method();
             return isset($result);
@@ -211,7 +211,7 @@ abstract class Presenter implements \ArrayAccess {
      * @param  string       $variable
      * @return string|null
      */
-    protectd function getPresentMethodForVariable($variable)
+    protected function getPresenterMethodFromVariable($variable)
     {
         $method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $variable)));
         if (method_exists($this, $method))
