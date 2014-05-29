@@ -18,8 +18,8 @@
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
-        "psr-0": {
-            "Robbo\\Presenter": "src/"
+        "psr-4": {
+            "Robbo\\Presenter\\": "src/"
         }
     },
     "extra": {
