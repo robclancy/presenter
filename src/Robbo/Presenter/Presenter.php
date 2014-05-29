@@ -182,7 +182,7 @@ abstract class Presenter implements \ArrayAccess {
     }
 
     /**
-     * Allow to unset a variable through the persenter
+     * Allow to unset a variable through the presenter
      *
      * @param string $name
      */
