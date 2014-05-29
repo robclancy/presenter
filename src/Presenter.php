@@ -213,7 +213,8 @@ abstract class Presenter implements \ArrayAccess {
      */
     protected function getPresenterMethodFromVariable($variable)
     {
-        $method = 'present'.str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $variable)));
+        $method = 'present'.studly_case($variable);
+
         if (method_exists($this, $method))
         {
             return $method;
