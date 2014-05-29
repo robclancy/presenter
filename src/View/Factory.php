@@ -41,7 +41,7 @@ class Factory extends BaseFactory {
      * @param  array   $mergeData
      * @return Illuminate\View\View
      */
-    public function make($view, $data = array(), $mergeData = array())
+    public function make($view, $data = [], $mergeData = [])
     {
         $path = $this->finder->find($view);
 
