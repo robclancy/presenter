@@ -16,9 +16,9 @@ class View extends BaseView {
     {
         if (is_array($key))
         {
-            return parent::with($this->environment->decorate($key));
+            return parent::with($this->factory->decorate($key));
         }
 
-        return parent::with($key, $this->environment->decorate($value));
+        return parent::with($key, $this->factory->decorate($value));
     }
 }

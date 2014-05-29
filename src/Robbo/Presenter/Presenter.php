@@ -219,5 +219,4 @@ abstract class Presenter implements \ArrayAccess {
             return $method;
         }
     }
-
 }

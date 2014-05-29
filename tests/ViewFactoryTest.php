@@ -5,10 +5,10 @@ use Robbo\Presenter\Presenter;
 use Robbo\Presenter\Decorator;
 use Robbo\Presenter\View\View;
 use Illuminate\Support\Collection;
-use Robbo\Presenter\View\Environment;
+use Robbo\Presenter\View\Factory;
 use Robbo\Presenter\PresentableInterface;
 
-class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
+class ViewFactoryTest extends PHPUnit_Framework_TestCase {
 
     public function tearDown()
     {
@@ -25,10 +25,10 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
             ))
         );
 
-        $env = $this->getEnvironment();
-        $env->finder->shouldReceive('find')->once()->andReturn('test');
+        $factory = $this->getFactory();
+        $factory->finder->shouldReceive('find')->once()->andReturn('test');
 
-        $view = $env->make('test', $data);
+        $view = $factory->make('test', $data);
 
         $this->assertInstanceOf('Robbo\Presenter\View\View', $view);
         $this->assertSame($view['meh'], $data['meh']);
@@ -38,9 +38,9 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('Robbo\Presenter\Presenter', $view['collection']['presentable']);
     }
 
-    protected function getEnvironment()
+    protected function getFactory()
     {
-        return new EnvironmentStub(
+        return new FactoryStub(
             m::mock('Illuminate\View\Engines\EngineResolver'),
             m::mock('Illuminate\View\ViewFinderInterface'),
             m::mock('Illuminate\Events\Dispatcher'),
@@ -49,7 +49,7 @@ class ViewEnvironmentTest extends PHPUnit_Framework_TestCase {
     }
 }
 
-class EnvironmentStub extends Environment {
+class FactoryStub extends Factory {
 
     public $finder;
 
@@ -75,7 +75,7 @@ class PresentableStub implements PresentableInterface {
 
     public function getPresenter()
     {
-        return new EnvPresenterStub($this);
+        return new FactoryPresenterStub($this);
     }
 }
 
@@ -83,8 +83,8 @@ class SecondPresentableStub implements PresentableInterface {
 
     public function getPresenter()
     {
-        return new EnvPresenterStub($this);
+        return new FactoryPresenterStub($this);
     }
 }
 
-class EnvPresenterStub extends Presenter {}
+class FactoryPresenterStub extends Presenter {}
