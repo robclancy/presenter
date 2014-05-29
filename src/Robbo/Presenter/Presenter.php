@@ -75,18 +75,15 @@ abstract class Presenter implements \ArrayAccess {
     public function offsetExists($offset)
     {
         // We only check isset on the array, if it is an object we return true as the object could be overloaded
-        if (is_array($this->object))
-        {
-            if ($method = $this->getPresentMethodForVariable($offset))
-            {
-                $result = $this->$method();
-                return isset($result);
-            }
+        if ( ! is_array($this->object)) return true;
 
-            return isset($this->object[$offset]);
+        if ($method = $this->getPresentMethodForVariable($offset))
+        {
+            $result = $this->$method();
+            return isset($result);
         }
 
-        return true;
+        return isset($this->object[$offset]);
     }
 
     /**
@@ -211,17 +208,15 @@ abstract class Presenter implements \ArrayAccess {
     /**
      * Fetch the 'present' method name for the given variable.
      *
-     * @param  string      $var Variable name
-     * @return string|null      Present method name, or null if method does not exist
+     * @param  string       $variable
+     * @return string|null
      */
-    private function getPresentMethodForVariable($var)
+    protectd function getPresentMethodForVariable($variable)
     {
-        $method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $var)));
-
-        if (method_exists($this, $method)) {
+        $method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $variable)));
+        if (method_exists($this, $method))
+        {
             return $method;
-        } else {
-            return null;
         }
     }
 
