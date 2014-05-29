@@ -55,7 +55,7 @@ Now presenters will automatically be created if using the <a href="#laravel-usag
 
 ## Usage
 
-`Presenter` is a very simply class that overloads methods and variables so that you can add extra logic to your objects or arrays without adding view logic to areas like your models or controllers and also keeps any extra logic our of your views.
+`Presenter` is a very simple class that overloads methods and variables so that you can add extra logic to your objects or arrays without adding view logic to areas like your models or controllers and also keeps any extra logic out of your views.
 
 ### General Usage
 
