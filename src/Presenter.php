@@ -58,7 +58,7 @@ abstract class Presenter implements \ArrayAccess {
 
     /**
      * Get the object we are wrapping.
-     * 
+     *
      * @return mixed
      */
     public function getObject()
