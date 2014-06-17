@@ -263,6 +263,11 @@ And that is all there is to it. You can easily automate the creation of presente
 
 ## Change Log
 
+#### 1.3.0
+- updated to work with `laravel 4.2.x`, to use in `4.1.x` stay on version `1.2.*`
+- moved to PSR-4 and now PHP 5.4+
+- small refactor and check `isset` again 'present' methods, thanks [BenConstable](https://github.com/robclancy/presenter/pull/25)
+
 #### 1.2.0
 - presenters can now be nested, thanks [alexwhitman](https://github.com/robclancy/presenter/pull/10)
 - added support for using Laravel's `View::with(array here)`, thanks [skovachev](https://github.com/robclancy/presenter/pull/14)
