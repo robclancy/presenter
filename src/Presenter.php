@@ -45,7 +45,7 @@ abstract class Presenter implements \ArrayAccess {
 
     /**
      * This is so you can extend the decorator and inject it into the presenter at the class level so the
-     * new decorator will be used for nested presenters. Method name should be "setDecorator" however 
+     * new decorator will be used for nested presenters. Method name should be "setDecorator" however
      * like above I want to make conflicts less likely.
      *
      * @param  \Robbo\Presenter\Decorator
@@ -58,7 +58,7 @@ abstract class Presenter implements \ArrayAccess {
 
     /**
      * Get the object we are wrapping.
-     * 
+     *
      * @return mixed
      */
     public function getObject()
@@ -133,7 +133,7 @@ abstract class Presenter implements \ArrayAccess {
     }
 
     /**
-     * Pass any unknown varible calls to present{$variable} or fall through to the injected object.
+     * Pass any unknown variable calls to present{$variable} or fall through to the injected object.
      *
      * @param  string $var
      * @return mixed
