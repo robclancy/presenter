@@ -53,7 +53,7 @@ class FactoryStub extends Factory {
 
     public $finder;
 
-    protected function getEngineFromPath($path)
+    public function getEngineFromPath($path)
     {
         return m::mock('Illuminate\View\Engines\EngineInterface');
     }
