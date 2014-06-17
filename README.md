@@ -26,7 +26,7 @@ This library provides a simple class to help make a `Presenter` for your objects
 Add `robclancy/presenter` to the "require" section of your `composer.json` file.
 
 ```json
-	"robclancy/presenter": "1.1.*"
+	"robclancy/presenter": "1.3.*"
 ```
 
 Run `composer update` to get the latest version of the package.
@@ -55,7 +55,7 @@ Now presenters will automatically be created if using the <a href="#laravel-usag
 
 ## Usage
 
-`Presenter` is a very simply class that overloads methods and variables so that you can add extra logic to your objects or arrays without adding view logic to areas like your models or controllers and also keeps any extra logic our of your views.
+`Presenter` is a very simple class that overloads methods and variables so that you can add extra logic to your objects or arrays without adding view logic to areas like your models or controllers and also keeps any extra logic out of your views.
 
 ### General Usage
 
@@ -72,7 +72,7 @@ class UserPresenter extends Robbo\Presenter\Presenter {
 }
 ```
 
-Now our view should receive an instance of this presenter which would be created with something like `$user = new PresenterUser(new User);`. If we want to link to the users page all we have to do is call `$user->url()`. Now you have good separation of logic and an easy little class you can modify to add properties to your `User` in all areas.
+Now our view should receive an instance of this presenter which would be created with something like `$user = new UserPresenter(new User);`. If we want to link to the users page all we have to do is call `$user->url()`. Now you have good separation of logic and an easy little class you can modify to add properties to your `User` in all areas.
 However you might not want to be calling methods like this, it could be inconsistant with what you are doing or you might want the code to look a little cleaner. That is where methods with the `present` prefix come in. All we do is update the presenter to the following.
 
 ```php
@@ -262,6 +262,11 @@ And that is all there is to it. You can easily automate the creation of presente
 
 
 ## Change Log
+
+#### 1.3.0
+- updated to work with `laravel 4.2.x`, to use in `4.1.x` stay on version `1.2.*`
+- moved to PSR-4 and now PHP 5.4+
+- small refactor and check `isset` again 'present' methods, thanks [BenConstable](https://github.com/robclancy/presenter/pull/25)
 
 #### 1.2.0
 - presenters can now be nested, thanks [alexwhitman](https://github.com/robclancy/presenter/pull/10)

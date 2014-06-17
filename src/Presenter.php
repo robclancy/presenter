@@ -45,7 +45,7 @@ abstract class Presenter implements \ArrayAccess {
 
     /**
      * This is so you can extend the decorator and inject it into the presenter at the class level so the
-     * new decorator will be used for nested presenters. Method name should be "setDecorator" however 
+     * new decorator will be used for nested presenters. Method name should be "setDecorator" however
      * like above I want to make conflicts less likely.
      *
      * @param  \Robbo\Presenter\Decorator
@@ -58,7 +58,7 @@ abstract class Presenter implements \ArrayAccess {
 
     /**
      * Get the object we are wrapping.
-     * 
+     *
      * @return mixed
      */
     public function getObject()
@@ -75,12 +75,15 @@ abstract class Presenter implements \ArrayAccess {
     public function offsetExists($offset)
     {
         // We only check isset on the array, if it is an object we return true as the object could be overloaded
-        if (is_array($this->object))
+        if ( ! is_array($this->object)) return true;
+
+        if ($method = $this->getPresenterMethodFromVariable($offset))
         {
-            return isset($this->object[$offset]);
+            $result = $this->$method();
+            return isset($result);
         }
 
-        return true;
+        return isset($this->object[$offset]);
     }
 
     /**
@@ -130,15 +133,14 @@ abstract class Presenter implements \ArrayAccess {
     }
 
     /**
-     * Pass any unknown varible calls to present{$variable} or fall through to the injected object.
+     * Pass any unknown variable calls to present{$variable} or fall through to the injected object.
      *
      * @param  string $var
      * @return mixed
      */
     public function __get($var)
     {
-        $method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $var)));
-        if (method_exists($this, $method))
+        if ($method = $this->getPresenterMethodFromVariable($var))
         {
             return $this->$method();
         }
@@ -173,6 +175,12 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __isset($name)
     {
+        if ($method = $this->getPresenterMethodFromVariable($name))
+        {
+            $result = $this->$method();
+            return isset($result);
+        }
+
         if (is_array($this->object))
         {
             return isset($this->object[$name]);
@@ -182,7 +190,7 @@ abstract class Presenter implements \ArrayAccess {
     }
 
     /**
-     * Allow to unset a variable through the persenter
+     * Allow to unset a variable through the presenter
      *
      * @param string $name
      */
@@ -197,4 +205,18 @@ abstract class Presenter implements \ArrayAccess {
         unset($this->object->$name);
     }
 
+    /**
+     * Fetch the 'present' method name for the given variable.
+     *
+     * @param  string       $variable
+     * @return string|null
+     */
+    protected function getPresenterMethodFromVariable($variable)
+    {
+        $method = 'present'.str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $variable)));
+        if (method_exists($this, $method))
+        {
+            return $method;
+        }
+    }
 }

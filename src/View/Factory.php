@@ -6,9 +6,9 @@ use Illuminate\Events\Dispatcher;
 use Illuminate\View\ViewFinderInterface;
 use Robbo\Presenter\PresentableInterface;
 use Illuminate\View\Engines\EngineResolver;
-use Illuminate\View\Environment as BaseEnvironment;
+use Illuminate\View\Factory as BaseFactory;
 
-class Environment extends BaseEnvironment {
+class Factory extends BaseFactory {
 
     /**
      * Used for "decorating" objects to have presenters.
@@ -18,7 +18,7 @@ class Environment extends BaseEnvironment {
     protected $presenterDecorator;
 
     /**
-     * Create a new view environment instance.
+     * Create a new view factory instance.
      *
      * @param  \Illuminate\View\Engines\EngineResolver  $engines
      * @param  \Illuminate\View\ViewFinderInterface  $finder
@@ -41,7 +41,7 @@ class Environment extends BaseEnvironment {
      * @param  array   $mergeData
      * @return Illuminate\View\View
      */
-    public function make($view, $data = array(), $mergeData = array())
+    public function make($view, $data = [], $mergeData = [])
     {
         $path = $this->finder->find($view);
 
@@ -51,7 +51,7 @@ class Environment extends BaseEnvironment {
     }
 
     /**
-     * Add a piece of shared data to the environment.
+     * Add a piece of shared data to the factory.
      *
      * @param  string  $key
      * @param  mixed   $value

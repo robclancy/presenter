@@ -30,7 +30,7 @@ class PresenterServiceProvider extends ServiceProvider {
     {
         $this->registerDecorator();
 
-        $this->registerEnvironment();
+        $this->registerFactory();
     }
 
     /**
@@ -56,31 +56,31 @@ class PresenterServiceProvider extends ServiceProvider {
     /**
      * Copied from the view service provider...
      *
-     * Register the view environment.
+     * Register the view factory.
      *
      * @return void
      */
-    public function registerEnvironment()
+    public function registerFactory()
     {
         $this->app['view'] = $this->app->share(function($app)
         {
             // Next we need to grab the engine resolver instance that will be used by the
-            // environment. The resolver will be used by an environment to get each of
+            // factory. The resolver will be used by a factory to get each of
             // the various engine implementations such as plain PHP or Blade engine.
             $resolver = $app['view.engine.resolver'];
 
             $finder = $app['view.finder'];
 
-            $env = new View\Environment($resolver, $finder, $app['events'], $app['presenter.decorator']);
+            $factory = new View\Factory($resolver, $finder, $app['events'], $app['presenter.decorator']);
 
-            // We will also set the container instance on this view environment since the
+            // We will also set the container instance on this view factory since the
             // view composers may be classes registered in the container, which allows
             // for great testable, flexible composers for the application developer.
-            $env->setContainer($app);
+            $factory->setContainer($app);
 
-            $env->share('app', $app);
+            $factory->share('app', $app);
 
-            return $env;
+            return $factory;
         });
     }
 
@@ -91,7 +91,7 @@ class PresenterServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array();
+        return [];
     }
 
 }

@@ -15,14 +15,14 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
     public function testWithMakesPresentable()
     {
-        $env = new EnvironmentStub(
+        $factory = new FactoryStub(
             m::mock('Illuminate\View\Engines\EngineResolver'),
             m::mock('Illuminate\View\ViewFinderInterface'),
             m::mock('Illuminate\Events\Dispatcher'),
             new Decorator
         );
 
-        $view = new View($env, m::mock('Illuminate\View\Engines\EngineInterface'), 'test', 'test/path');
+        $view = new View($factory, m::mock('Illuminate\View\Engines\EngineInterface'), 'test', 'test/path');
 
         $view->with('presenter', new ViewPresentableStub);
 
@@ -31,14 +31,14 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
     public function testWithMakesArrayPresentable()
     {
-        $env = new EnvironmentStub(
+        $factory = new FactoryStub(
             m::mock('Illuminate\View\Engines\EngineResolver'),
             m::mock('Illuminate\View\ViewFinderInterface'),
             m::mock('Illuminate\Events\Dispatcher'),
             new Decorator
         );
 
-        $view = new View($env, m::mock('Illuminate\View\Engines\EngineInterface'), 'test', 'test/path');
+        $view = new View($factory, m::mock('Illuminate\View\Engines\EngineInterface'), 'test', 'test/path');
 
         $data = array(
             'presenter' => new ViewPresentableStub
