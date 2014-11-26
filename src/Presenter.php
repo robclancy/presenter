@@ -248,7 +248,7 @@ abstract class Presenter implements \ArrayAccess, \JsonSerializable, ArrayableIn
         $presenterMethods = array();
 
         foreach(get_class_methods(get_called_class()) as $method) {
-            if (preg_match('/^present(.+)$/', $method, $matches)) {
+            if (preg_match(sprintf('/^%s(.+)$/', self::PRESENTER_PREFIX), $method, $matches)) {
                 $presenterMethods[] = lcfirst($matches[1]);
             }
         }
@@ -265,7 +265,9 @@ abstract class Presenter implements \ArrayAccess, \JsonSerializable, ArrayableIn
     protected function getPresentableAttributes()
     {
         foreach($this->getPresenterMethods() as $presenterMethod) {
-            $this->presentableAttributes[$presenterMethod] = call_user_func_array(array($this, self::PRESENTER_PREFIX . $presenterMethod), array());
+            $this->presentableAttributes[$presenterMethod] = call_user_func_array(
+                array($this, self::PRESENTER_PREFIX . $presenterMethod),
+                array());
         }
 
         return $this->presentableAttributes;
