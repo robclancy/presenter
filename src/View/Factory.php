@@ -4,12 +4,10 @@ use Robbo\Presenter\Presenter;
 use Robbo\Presenter\Decorator;
 use Illuminate\Events\Dispatcher;
 use Illuminate\View\ViewFinderInterface;
-use Robbo\Presenter\PresentableInterface;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory as BaseFactory;
 
 class Factory extends BaseFactory {
-
     /**
      * Used for "decorating" objects to have presenters.
      *
@@ -21,13 +19,17 @@ class Factory extends BaseFactory {
      * Create a new view factory instance.
      *
      * @param  \Illuminate\View\Engines\EngineResolver  $engines
-     * @param  \Illuminate\View\ViewFinderInterface  $finder
-     * @param  \Illuminate\Events\Dispatcher  $events
-     * @param  \Robbo\Presenter\Decorator  $decorator
+     * @param  \Illuminate\View\ViewFinderInterface     $finder
+     * @param  \Illuminate\Events\Dispatcher            $events
+     * @param  \Robbo\Presenter\Decorator               $decorator
      * @return void
      */
-    public function __construct(EngineResolver $engines, ViewFinderInterface $finder, Dispatcher $events, Decorator $decorator)
-    {
+    public function __construct(
+        EngineResolver $engines,
+        ViewFinderInterface $finder,
+        Dispatcher $events,
+        Decorator $decorator
+    ) {
         $this->presenterDecorator = $decorator;
 
         parent::__construct($engines, $finder, $events);
@@ -39,15 +41,25 @@ class Factory extends BaseFactory {
      * @param  string  $view
      * @param  array   $data
      * @param  array   $mergeData
-     * @return Illuminate\View\View
+     * @return \Illuminate\View\View
      */
     public function make($view, $data = [], $mergeData = [])
     {
+        if (isset($this->aliases[$view])) {
+            $view = $this->aliases[$view];
+        }
+
+        $view = $this->normalizeName($view);
+
         $path = $this->finder->find($view);
 
         $data = array_merge($mergeData, $this->parseData($data));
 
-        return new View($this, $this->getEngineFromPath($path), $view, $path, $this->decorate($data));
+        $this->callCreator(
+            $view = new View($this, $this->getEngineFromPath($path), $view, $path, $this->decorate($data))
+        );
+
+        return $view;
     }
 
     /**
@@ -59,8 +71,7 @@ class Factory extends BaseFactory {
      */
     public function share($key, $value = null)
     {
-        if ( ! is_array($key))
-        {
+        if (!is_array($key)) {
             return parent::share($key, $this->decorate($value));
         }
 
@@ -77,5 +88,4 @@ class Factory extends BaseFactory {
     {
         return $this->presenterDecorator->decorate($value);
     }
-
 }

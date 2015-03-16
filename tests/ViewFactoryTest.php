@@ -57,6 +57,11 @@ class FactoryStub extends Factory {
     {
         return m::mock('Illuminate\View\Engines\EngineInterface');
     }
+
+    public function callCreator($view)
+    {
+        return $view;
+    }
 }
 
 class PresentableStub implements PresentableInterface {
