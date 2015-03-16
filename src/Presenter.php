@@ -1,6 +1,9 @@
 <?php namespace Robbo\Presenter;
 
-abstract class Presenter implements \ArrayAccess {
+use Illuminate\Support\Contracts\ArrayableInterface;
+use Illuminate\Support\Contracts\JsonableInterface;
+
+abstract class Presenter implements \ArrayAccess, \JsonSerializable, ArrayableInterface, JsonableInterface {
 
     /**
      * The object injected on Presenter construction.
@@ -8,6 +11,21 @@ abstract class Presenter implements \ArrayAccess {
      * @var mixed
      */
     protected $object;
+
+    /**
+     * Presentable funtions are prefixed with this.
+     *
+     * @const
+     */
+    const PRESENTER_PREFIX = 'present';
+
+    /**
+     * Holds the return value of our presentable methods when
+     * calling toArray or toJson.
+     *
+     * @var array
+     */
+    protected $presentableAttributes = array();
 
     /**
      * The decorator instance so we can nest presenters. Underscores here to avoid conflicts
@@ -213,10 +231,77 @@ abstract class Presenter implements \ArrayAccess {
      */
     protected function getPresenterMethodFromVariable($variable)
     {
-        $method = 'present'.str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $variable)));
+        $method = self::PRESENTER_PREFIX . str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $variable)));
         if (method_exists($this, $method))
         {
             return $method;
         }
+    }
+
+    /**
+     * Gets all presentable methods.
+     *
+     * @return array
+     */
+    protected function getPresenterMethods()
+    {
+        $presenterMethods = array();
+
+        foreach(get_class_methods(get_called_class()) as $method) {
+            if (preg_match(sprintf('/^%s(.+)$/', self::PRESENTER_PREFIX), $method, $matches)) {
+                $presenterMethods[] = lcfirst($matches[1]);
+            }
+        }
+
+        return $presenterMethods;
+    }
+
+    /**
+     * Calls all presentable functions and returns their values paired
+     * with the function name.
+     *
+     * @return array
+     */
+    protected function getPresentableAttributes()
+    {
+        foreach($this->getPresenterMethods() as $presenterMethod) {
+            $this->presentableAttributes[$presenterMethod] = call_user_func_array(
+                array($this, self::PRESENTER_PREFIX . $presenterMethod),
+                array());
+        }
+
+        return $this->presentableAttributes;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toArray()
+    {
+        if ($this->object instanceof ArrayableInterface) {
+            return array_merge($this->object->toArray(), $this->getPresentableAttributes());
+        }
+
+        if (is_array($this->object)) {
+            return array_merge($this->object, $this->getPresentableAttributes());
+        }
+
+        throw new ObjectNotArrayException('Object is not compatible with ArrayableInterface or it not an array');
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function toJson($options = 0)
+    {
+        return json_encode($this->toArray(), $options);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function jsonSerialize()
+    {
+        return $this->toArray();
     }
 }

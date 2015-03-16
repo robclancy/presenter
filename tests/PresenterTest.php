@@ -112,6 +112,36 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
         $this->assertFalse(isset($presenter->testVar));
     }
 
+    /**
+     * @expectedException Robbo\Presenter\ObjectNotArrayException
+     */
+    public function testInvalidObejctToArray()
+    {
+        $presenter = new PresenterStub(new InjectStub);
+        $presenter->toArray();
+    }
+
+    public function testPresenterOverridesEloquentAttribute()
+    {
+        $presenter =  new PresenterStubOverridingProperty(new InjectStubExtendsEloquentModel(array(
+            'testVar4' => 'testvar4',
+        )));
+
+        $presenterAsArray = $presenter->toArray();
+
+        $this->assertArrayHasKey('testVar4', $presenterAsArray);
+        $this->assertArrayHasKey('testNotExistingAttribute', $presenterAsArray);
+        $this->assertEquals('not testvar4', $presenterAsArray['testVar4']);
+    }
+
+    public function testPresenenterToJson()
+    {
+        $presenter =  new PresenterStubOverridingProperty(new InjectStubExtendsEloquentModel(array(
+            'testVar4' => 'testvar4',
+        )));
+
+        $this->assertJsonStringEqualsJsonFile(__DIR__ . '/expectedPresenterAsJsonString.json', $presenter->toJson());
+    }
 }
 
 class InjectStub {
@@ -146,5 +176,36 @@ class PresenterStub2 extends Presenter {
     public function testMethod3()
     {
         return 'testMethod3';
+    }
+}
+
+class InjectStubExtendsEloquentModel extends \Illuminate\Database\Eloquent\Model {
+
+    public $testVar = 'testvar';
+    public $fillable = array('testVar4');
+
+    public function testMethod()
+    {
+        return 'testMethod';
+    }
+}
+
+class PresenterStubOverridingProperty extends Presenter {
+
+    public $testVar3 = 'testvar3';
+
+    public function testMethod3()
+    {
+        return 'testMethod3';
+    }
+
+    public function presentTestVar4()
+    {
+        return 'not testvar4';
+    }
+
+    public function presentTestNotExistingAttribute()
+    {
+        return 'new attribute from presentor';
     }
 }
