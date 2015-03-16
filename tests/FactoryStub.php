@@ -1,6 +1,7 @@
 <?php
 
 use Mockery as m;
+use Illuminate\View\View;
 use Robbo\Presenter\View\Factory;
 
 class FactoryStub extends Factory
@@ -12,7 +13,7 @@ class FactoryStub extends Factory
         return m::mock('Illuminate\View\Engines\EngineInterface');
     }
 
-    public function callCreator($view)
+    public function callCreator(View $view)
     {
         return $view;
     }
