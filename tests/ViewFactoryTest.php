@@ -8,8 +8,8 @@ use Illuminate\Support\Collection;
 use Robbo\Presenter\View\Factory;
 use Robbo\Presenter\PresentableInterface;
 
-class ViewFactoryTest extends PHPUnit_Framework_TestCase {
-
+class ViewFactoryTest extends PHPUnit_Framework_TestCase
+{
     public function tearDown()
     {
         m::close();
@@ -48,48 +48,3 @@ class ViewFactoryTest extends PHPUnit_Framework_TestCase {
         );
     }
 }
-
-class FactoryStub extends Factory {
-
-    public $finder;
-
-    public function getEngineFromPath($path)
-    {
-        return m::mock('Illuminate\View\Engines\EngineInterface');
-    }
-
-    public function callCreator($view)
-    {
-        return $view;
-    }
-}
-
-class PresentableStub implements PresentableInterface {
-
-    public $presentableObject;
-
-    public function __construct()
-    {
-        $this->presentableObject = new SecondPresentableStub;
-    }
-
-    public function getPresentableObject()
-    {
-        return $this->presentableObject;
-    }
-
-    public function getPresenter()
-    {
-        return new FactoryPresenterStub($this);
-    }
-}
-
-class SecondPresentableStub implements PresentableInterface {
-
-    public function getPresenter()
-    {
-        return new FactoryPresenterStub($this);
-    }
-}
-
-class FactoryPresenterStub extends Presenter {}

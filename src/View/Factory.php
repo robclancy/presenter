@@ -7,7 +7,8 @@ use Illuminate\View\ViewFinderInterface;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory as BaseFactory;
 
-class Factory extends BaseFactory {
+class Factory extends BaseFactory
+{
     /**
      * Used for "decorating" objects to have presenters.
      *

@@ -3,8 +3,8 @@
 use Robbo\Presenter\Presenter;
 use Illuminate\View\View as BaseView;
 
-class View extends BaseView {
-
+class View extends BaseView
+{
     /**
      * Add a piece of data to the view.
      *
@@ -14,8 +14,7 @@ class View extends BaseView {
      */
     public function with($key, $value = null)
     {
-        if (is_array($key))
-        {
+        if (is_array($key)) {
             return parent::with($this->factory->decorate($key));
         }
 

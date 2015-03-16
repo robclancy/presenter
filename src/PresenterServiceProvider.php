@@ -2,8 +2,8 @@
 
 use Illuminate\Support\ServiceProvider;
 
-class PresenterServiceProvider extends ServiceProvider {
-
+class PresenterServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -41,11 +41,10 @@ class PresenterServiceProvider extends ServiceProvider {
      */
     public function registerDecorator()
     {
-        $this->app['presenter.decorator'] = $this->app->share(function($app)
-        {
+        $this->app['presenter.decorator'] = $this->app->share(function($app) {
             $decorator = new Decorator;
 
-            // This isn't really doing anything here however if you want to extend the decorator 
+            // This isn't really doing anything here however if you want to extend the decorator
             // with your own instance then you need to do it like this in your own service
             // provider or in start/global.php.
             Presenter::setExtendedDecorator($decorator);
@@ -62,8 +61,7 @@ class PresenterServiceProvider extends ServiceProvider {
      */
     public function registerFactory()
     {
-        $this->app['view'] = $this->app->share(function($app)
-        {
+        $this->app['view'] = $this->app->share(function($app) {
             // Next we need to grab the engine resolver instance that will be used by the
             // factory. The resolver will be used by a factory to get each of
             // the various engine implementations such as plain PHP or Blade engine.
@@ -93,5 +91,4 @@ class PresenterServiceProvider extends ServiceProvider {
     {
         return [];
     }
-
 }

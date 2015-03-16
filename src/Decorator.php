@@ -1,9 +1,10 @@
 <?php namespace Robbo\Presenter;
 
-use ArrayAccess, IteratorAggregate;
+use ArrayAccess;
+use IteratorAggregate;
 
-class Decorator {
-
+class Decorator
+{
     /*
      * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
      *
@@ -12,15 +13,12 @@ class Decorator {
     */
     public function decorate($value)
     {
-        if ($value instanceof PresentableInterface)
-        {
+        if ($value instanceof PresentableInterface) {
             return $value->getPresenter();
         }
 
-        if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess))
-        {
-            foreach ($value as $k => $v)
-            {
+        if (is_array($value) or ($value instanceof IteratorAggregate and $value instanceof ArrayAccess)) {
+            foreach ($value as $k => $v) {
                 $value[$k] = $this->decorate($v);
             }
         }
