@@ -12,16 +12,6 @@ class PresenterServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
-     * Bootstrap the application events.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->package('robclancy/presenter');
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void
@@ -41,7 +31,7 @@ class PresenterServiceProvider extends ServiceProvider
      */
     public function registerDecorator()
     {
-        $this->app['presenter.decorator'] = $this->app->share(function($app) {
+        $this->app->bindShared('presenter.decorator', function ($app) {
             $decorator = new Decorator;
 
             // This isn't really doing anything here however if you want to extend the decorator
@@ -61,15 +51,13 @@ class PresenterServiceProvider extends ServiceProvider
      */
     public function registerFactory()
     {
-        $this->app['view'] = $this->app->share(function($app) {
-            // Next we need to grab the engine resolver instance that will be used by the
-            // factory. The resolver will be used by a factory to get each of
-            // the various engine implementations such as plain PHP or Blade engine.
-            $resolver = $app['view.engine.resolver'];
-
-            $finder = $app['view.finder'];
-
-            $factory = new View\Factory($resolver, $finder, $app['events'], $app['presenter.decorator']);
+        $this->app->bindShared('view', function ($app) {
+            $factory = new View\Factory(
+                $app->make('view.engine.resolver'),
+                $app->make('view.finder'),
+                $app->make('events'),
+                $app->make('presenter.decorator')
+            );
 
             // We will also set the container instance on this view factory since the
             // view composers may be classes registered in the container, which allows
@@ -89,6 +77,6 @@ class PresenterServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [];
+        return ['presenter.decorator'];
     }
 }
