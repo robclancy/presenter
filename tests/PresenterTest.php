@@ -2,8 +2,8 @@
 
 use Robbo\Presenter\Presenter;
 
-class PresenterTest extends PHPUnit_Framework_TestCase {
-
+class PresenterTest extends PHPUnit_Framework_TestCase
+{
     public function testPresenterVariableCalls()
     {
         $presenter = new PresenterStub(new InjectStub);
@@ -107,44 +107,8 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
         $presenter = new PresenterStub(new InjectStub);
 
         $this->assertEquals($presenter->testVar, 'testvar');
-        
+
         unset($presenter['testVar']);
         $this->assertFalse(isset($presenter->testVar));
-    }
-
-}
-
-class InjectStub {
-
-    public $testVar = 'testvar';
-
-    public function testMethod()
-    {
-        return 'testMethod';
-    }
-}
-
-class PresenterStub extends Presenter {
-
-    public $testVar2 = 'testvar2';
-
-    public function testMethod2()
-    {
-        return 'testMethod2';
-    }
-
-    protected function presentAwesome()
-    {
-        return 'presenting you the awesome';
-    }
-}
-
-class PresenterStub2 extends Presenter {
-
-    public $testVar3 = 'testvar3';
-
-    public function testMethod3()
-    {
-        return 'testMethod3';
     }
 }

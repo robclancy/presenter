@@ -1,7 +1,7 @@
 <?php namespace Robbo\Presenter;
 
-abstract class Presenter implements \ArrayAccess {
-
+abstract class Presenter implements \ArrayAccess
+{
     /**
      * The object injected on Presenter construction.
      *
@@ -35,8 +35,7 @@ abstract class Presenter implements \ArrayAccess {
      */
     protected function __getDecorator()
     {
-        if (is_null(static::$__decorator))
-        {
+        if (is_null(static::$__decorator)) {
             static::$__decorator = new Decorator;
         }
 
@@ -75,10 +74,11 @@ abstract class Presenter implements \ArrayAccess {
     public function offsetExists($offset)
     {
         // We only check isset on the array, if it is an object we return true as the object could be overloaded
-        if ( ! is_array($this->object)) return true;
+        if (!is_array($this->object)) {
+            return true;
+        }
 
-        if ($method = $this->getPresenterMethodFromVariable($offset))
-        {
+        if ($method = $this->getPresenterMethodFromVariable($offset)) {
             $result = $this->$method();
             return isset($result);
         }
@@ -106,8 +106,7 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function offsetSet($offset, $value)
     {
-        if (is_array($this->object))
-        {
+        if (is_array($this->object)) {
             $this->object[$offset] = $value;
             return;
         }
@@ -123,8 +122,7 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function offsetUnset($offset)
     {
-        if (is_array($this->object))
-        {
+        if (is_array($this->object)) {
             unset($this->object[$offset]);
             return;
         }
@@ -140,8 +138,7 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __get($var)
     {
-        if ($method = $this->getPresenterMethodFromVariable($var))
-        {
+        if ($method = $this->getPresenterMethodFromVariable($var)) {
             return $this->$method();
         }
 
@@ -157,8 +154,7 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __call($method, $arguments)
     {
-        if (is_object($this->object))
-        {
+        if (is_object($this->object)) {
             $value = call_user_func_array(array($this->object, $method), $arguments);
 
             return $this->__getDecorator()->decorate($value);
@@ -175,14 +171,12 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __isset($name)
     {
-        if ($method = $this->getPresenterMethodFromVariable($name))
-        {
+        if ($method = $this->getPresenterMethodFromVariable($name)) {
             $result = $this->$method();
             return isset($result);
         }
 
-        if (is_array($this->object))
-        {
+        if (is_array($this->object)) {
             return isset($this->object[$name]);
         }
 
@@ -196,8 +190,7 @@ abstract class Presenter implements \ArrayAccess {
      */
     public function __unset($name)
     {
-        if (is_array($this->object))
-        {
+        if (is_array($this->object)) {
             unset($this->object[$name]);
             return;
         }
@@ -214,8 +207,7 @@ abstract class Presenter implements \ArrayAccess {
     protected function getPresenterMethodFromVariable($variable)
     {
         $method = 'present'.str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $variable)));
-        if (method_exists($this, $method))
-        {
+        if (method_exists($this, $method)) {
             return $method;
         }
     }

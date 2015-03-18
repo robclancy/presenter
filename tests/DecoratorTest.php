@@ -3,8 +3,8 @@
 use Robbo\Presenter\Decorator;
 use Illuminate\Support\Collection;
 
-class DecoratorTest extends PHPUnit_Framework_TestCase {
-
+class DecoratorTest extends PHPUnit_Framework_TestCase
+{
     public function testPresentableToPresenter()
     {
         $decorator = new Decorator;

@@ -1,7 +1,7 @@
 <?php namespace Robbo\Presenter;
 
-interface PresentableInterface {
-
+interface PresentableInterface
+{
     /**
      * Return a created presenter.
      *

@@ -2,12 +2,10 @@
 
 use Mockery as m;
 use Robbo\Presenter\View\View;
-use Robbo\Presenter\Presenter;
 use Robbo\Presenter\Decorator;
-use Robbo\Presenter\PresentableInterface;
 
-class ViewTest extends PHPUnit_Framework_TestCase {
-
+class ViewTest extends PHPUnit_Framework_TestCase
+{
     public function tearDown()
     {
         m::close();
@@ -18,7 +16,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
         $factory = new FactoryStub(
             m::mock('Illuminate\View\Engines\EngineResolver'),
             m::mock('Illuminate\View\ViewFinderInterface'),
-            m::mock('Illuminate\Events\Dispatcher'),
+            m::mock('Illuminate\Contracts\Events\Dispatcher'),
             new Decorator
         );
 
@@ -34,7 +32,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
         $factory = new FactoryStub(
             m::mock('Illuminate\View\Engines\EngineResolver'),
             m::mock('Illuminate\View\ViewFinderInterface'),
-            m::mock('Illuminate\Events\Dispatcher'),
+            m::mock('Illuminate\Contracts\Events\Dispatcher'),
             new Decorator
         );
 
@@ -49,13 +47,3 @@ class ViewTest extends PHPUnit_Framework_TestCase {
         $this->assertInstanceOf('Robbo\Presenter\Presenter', $view['presenter']);
     }
 }
-
-class ViewPresentableStub implements PresentableInterface {
-
-    public function getPresenter()
-    {
-        return new ViewPresenterStub($this);
-    }
-}
-
-class ViewPresenterStub extends Presenter {}
