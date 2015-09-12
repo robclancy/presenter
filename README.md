@@ -263,6 +263,9 @@ And that is all there is to it. You can easily automate the creation of presente
 
 ## Change Log
 
+#### 1.3.1
+updated to work with laravel 5.x
+
 #### 1.3.0
 - updated to work with `laravel 4.2.x`, to use in `4.1.x` stay on version `1.2.*`
 - moved to PSR-4 and now PHP 5.4+
