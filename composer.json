@@ -14,7 +14,7 @@
     "require": {},
     "require-dev": {
       "mockery/mockery": "0.7.2",
-      "illuminate/view": "4.2.*",
+      "illuminate/view": "5.4.*",
       "phpunit/phpunit": "3.7.*",
       "friendsofphp/php-cs-fixer": "^2.1"
     },
