@@ -5,6 +5,5 @@
 /vendor
 /.idea
 Homestead.json
-.env
 composer.lock
 .vagrant
