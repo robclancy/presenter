@@ -22,6 +22,6 @@ before_script:
 
 script:
   - vendor/bin/php-cs-fixer fix --dry-run --diff
-  - phpunit
-  - (cd examples/laravel-4 && phpunit)
-  - if [ -d "examples/laravel-5/vendor" ]; then (cd examples/laravel-5 && phpunit); fi
+  - vendor/bin/phpunit
+  - (cd examples/laravel-4 && vendor/bin/phpunit)
+  - if [ -d "examples/laravel-5/vendor" ]; then (cd examples/laravel-5 && vendor/bin/phpunit); fi
