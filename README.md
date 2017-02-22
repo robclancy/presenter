@@ -41,11 +41,11 @@ It's recommended that you use Composer, however you can download and install fro
 
 This package comes with an optional service provider for Laravel 4 so that you can automate some extra steps. You will need to have installed using the composer method above, then register the service provider with your application.
 
-Open `app/config/app.php` and find the `providers` key. Add 
+Open `app/config/app.php` and find the `providers` key. Add
 ```
 'Robbo\Presenter\PresenterServiceProvider',
-``` 
-to the array at some point after 
+```
+to the array at some point after
 ```
 'Illuminate\View\ViewServiceProvider',
 ```
@@ -64,7 +64,7 @@ Let's say you have a list of users and you want to generate a link to the profil
 ```php
 
 class UserPresenter extends Robbo\Presenter\Presenter {
-	
+
 	public function url()
 	{
 		return $this->id.'-'.$this->username;
@@ -78,7 +78,7 @@ However you might not want to be calling methods like this, it could be inconsis
 ```php
 
 class UserPresenter extends Robbo\Presenter\Presenter {
-	
+
 	public function presentUrl()
 	{
 		return $this->id.'-'.$this->username;
@@ -100,7 +100,7 @@ class User {
 }
 
 class UserPresenter extends Robbo\Presenter\Presenter {
-	
+
 	// ...
 }
 
@@ -134,12 +134,12 @@ For Example.
 ```php
 
 class UserPresenter extends Robbo\Presenter\Presenter {
-	
+
 	// ...
 }
 
 class User implements Robbo\Presenter\PresentableInterface {
-	
+
 	/**
 	 * Return a created presenter.
 	 *
@@ -169,7 +169,7 @@ $user = [
 ];
 
 class UserPresenter extends Robbo\Presenter\Presenter {
-	
+
 	public function presentUrl()
 	{
 		// This will work exactly the same as previous examples
@@ -198,8 +198,8 @@ echo 'And again: ', $user['url'];
 
 ### Extending the Decorator
 
-As of 1.2.x I have added in a decorator object. This object takes care of turning an object that has `PresentableInterface` into a `Presenter`. 
-By default, this is done with Laravel's `View` objects. The reasoning behind a new class instead of the previous implementation is so it can be better tested and also to allow you to extend it. 
+As of 1.2.x I have added in a decorator object. This object takes care of turning an object that has `PresentableInterface` into a `Presenter`.
+By default, this is done with Laravel's `View` objects. The reasoning behind a new class instead of the previous implementation is so it can be better tested and also to allow you to extend it.
 Here is an example of extending the `Decorator` so that instead of using the `PresentableInterface` and `getPresenter()` method you can use a public variable on the object called `$presenter`.
 
 Note: these instructions are for Laravel usage.
@@ -211,7 +211,7 @@ First extend the decorator...
 use Robbo\Presenter\Decorator as BaseDecorator;
 
 class Decorator extends BaseDecorator {
-	
+
 	/*
      * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
      *
@@ -263,8 +263,13 @@ And that is all there is to it. You can easily automate the creation of presente
 
 ## Change Log
 
+#### 1.3.2
+- NOTE: last version to support `laravel 4.2.x`
+- updated to work with `laravel 5.4.x`
+- added php-cs-fixer to update the code style, no other internal changes though
+
 #### 1.3.1
-updated to work with laravel 5.x
+- updated to work with `laravel 5.x`
 
 #### 1.3.0
 - updated to work with `laravel 4.2.x`, to use in `4.1.x` stay on version `1.2.*`
