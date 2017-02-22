@@ -2,6 +2,8 @@
 
 Decorate your objects using presenters. Primarily to keep presentation logic out of your models.
 
+**Ping me [@robboclancy](https://twitter.com/robboclancy) for any urgent issues, github isn't always correctly notifying me.**
+
 This library provides a simple class to help make a `Presenter` for your objects or arrays. It also has little extras for use within Laravel with minimal extra code in your controllers (in most cases no extra code).
 
 [![Build Status](https://secure.travis-ci.org/robclancy/presenter.png)](http://travis-ci.org/robclancy/presenter)
