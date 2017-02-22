@@ -149,7 +149,7 @@ abstract class Presenter implements \ArrayAccess {
     }
 
     /**
-     * Pass any uknown methods through to the inject object.
+     * Pass any unknown methods through to the inject object.
      *
      * @param  string $method
      * @param  array  $arguments
