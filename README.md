@@ -9,7 +9,7 @@ This library provides a simple class to help make a `Presenter` for your objects
 - <a href="#installation">Installation</a>
     - <a href="#composer">Composer</a>
     - <a href="#manually">Manually</a>
-    - <a href="#laravel-4">Laravel 4</a>
+    - <a href="#laravel">Laravel</a>
 - <a href="#usage">Usage</a>
 	- <a href="#general-usage">General Usage</a>
 	- <a href="#manually-initiate">Manually Initiate</a>
@@ -37,9 +37,9 @@ Run `composer update` to get the latest version of the package.
 It's recommended that you use Composer, however you can download and install from this repository.
 
 
-### Laravel 4
+### Laravel
 
-This package comes with an optional service provider for Laravel 4 so that you can automate some extra steps. You will need to have installed using the composer method above, then register the service provider with your application.
+This package comes with an optional service provider for Laravel 4 or 5 so that you can automate some extra steps. You will need to have installed using the composer method above, then register the service provider with your application.
 
 Open `app/config/app.php` and find the `providers` key. Add
 ```
