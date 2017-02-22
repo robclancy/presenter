@@ -39,6 +39,6 @@
 	"minimum-stability": "stable",
 	"require-dev": {
 		"laravel/homestead": "~2.0",
-		"phpunit/phpunit": "^5.7"
+		"phpunit/phpunit": "3.7.*"
 	}
 }
