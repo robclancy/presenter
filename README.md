@@ -1,5 +1,7 @@
 # Presenter
 
+Decorate your objects using presenters. Primarily to keep presentation logic out of your models.
+
 This library provides a simple class to help make a `Presenter` for your objects or arrays. It also has little extras for use within Laravel with minimal extra code in your controllers (in most cases no extra code).
 
 [![Build Status](https://secure.travis-ci.org/robclancy/presenter.png)](http://travis-ci.org/robclancy/presenter)
@@ -264,9 +266,9 @@ And that is all there is to it. You can easily automate the creation of presente
 ## Change Log
 
 #### 1.3.2
-- NOTE: last version to support `laravel 4.2.x`
-- updated to work with `laravel 5.4.x`
-- added php-cs-fixer to update the code style, no other internal changes though
+- updated to work with `laravel 5.4.x`, only actual changes that aren't style or tests
+- added php-cs-fixer to update the code style
+- added examples to have tests for providers in a full app situation
 
 #### 1.3.1
 - updated to work with `laravel 5.x`
