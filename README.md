@@ -243,7 +243,7 @@ App::make('presenter.decorator', App::share(function($app)
 
 	Robbo\Presenter\Presenter::setExtendedDecorator($decorator);
 	return $decorator;
-});
+}));
 
 // In a service provider's 'register' method
 
