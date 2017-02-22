@@ -15,8 +15,6 @@ class PresenterServiceProvider extends ServiceProvider
 
     /**
      * Register the service provider.
-     *
-     * @return void
      */
     public function register()
     {
@@ -28,14 +26,11 @@ class PresenterServiceProvider extends ServiceProvider
     /**
      * Register the decorator. If you want to extend the decorator you would basically copy
      * what this method does in start/global.php or your own service provider.
-     *
-     * @return void
      */
     public function registerDecorator()
     {
-        $this->app->singleton('presenter.decorator', function($app)
-        {
-            $decorator = new Decorator;
+        $this->app->singleton('presenter.decorator', function ($app) {
+            $decorator = new Decorator();
 
             // This isn't really doing anything here however if you want to extend the decorator
             // with your own instance then you need to do it like this in your own service
@@ -50,13 +45,10 @@ class PresenterServiceProvider extends ServiceProvider
      * Copied from the view service provider...
      *
      * Register the view factory.
-     *
-     * @return void
      */
     public function registerFactory()
     {
-        $this->app->singleton('view', function($app)
-        {
+        $this->app->singleton('view', function ($app) {
             // Next we need to grab the engine resolver instance that will be used by the
             // factory. The resolver will be used by a factory to get each of
             // the various engine implementations such as plain PHP or Blade engine.
@@ -84,6 +76,6 @@ class PresenterServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [];
+        return array();
     }
 }

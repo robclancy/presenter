@@ -1,15 +1,16 @@
-<?php namespace Robbo\Presenter\View;
+<?php
+
+namespace Robbo\Presenter\View;
 
 use Robbo\Presenter\Presenter;
 use Robbo\Presenter\Decorator;
 use Illuminate\Events\Dispatcher;
 use Illuminate\View\ViewFinderInterface;
-use Robbo\Presenter\PresentableInterface;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory as BaseFactory;
 
-class Factory extends BaseFactory {
-
+class Factory extends BaseFactory
+{
     /**
      * Used for "decorating" objects to have presenters.
      *
@@ -20,11 +21,10 @@ class Factory extends BaseFactory {
     /**
      * Create a new view factory instance.
      *
-     * @param  \Illuminate\View\Engines\EngineResolver  $engines
-     * @param  \Illuminate\View\ViewFinderInterface  $finder
-     * @param  \Illuminate\Events\Dispatcher  $events
-     * @param  \Robbo\Presenter\Decorator  $decorator
-     * @return void
+     * @param \Illuminate\View\Engines\EngineResolver $engines
+     * @param \Illuminate\View\ViewFinderInterface    $finder
+     * @param \Illuminate\Events\Dispatcher           $events
+     * @param \Robbo\Presenter\Decorator              $decorator
      */
     public function __construct(EngineResolver $engines, ViewFinderInterface $finder, Dispatcher $events, Decorator $decorator)
     {
@@ -36,12 +36,13 @@ class Factory extends BaseFactory {
     /**
      * Get a evaluated view contents for the given view.
      *
-     * @param  string  $view
-     * @param  array   $data
-     * @param  array   $mergeData
+     * @param string $view
+     * @param array  $data
+     * @param array  $mergeData
+     *
      * @return Illuminate\View\View
      */
-    public function make($view, $data = [], $mergeData = [])
+    public function make($view, $data = array(), $mergeData = array())
     {
         $path = $this->finder->find($view);
 
@@ -53,14 +54,12 @@ class Factory extends BaseFactory {
     /**
      * Add a piece of shared data to the factory.
      *
-     * @param  string  $key
-     * @param  mixed   $value
-     * @return void
+     * @param string $key
+     * @param mixed  $value
      */
     public function share($key, $value = null)
     {
-        if ( ! is_array($key))
-        {
+        if (! is_array($key)) {
             return parent::share($key, $this->decorate($value));
         }
 
@@ -70,12 +69,12 @@ class Factory extends BaseFactory {
     /**
      * Decorate an object with a presenter.
      *
-     * @param  mixed $value
+     * @param mixed $value
+     *
      * @return mixed
      */
     public function decorate($value)
     {
         return $this->presenterDecorator->decorate($value);
     }
-
 }

@@ -1,0 +1,36 @@
+---
+ip: "192.168.10.16"
+memory: 2048
+cpus: 1
+hostname: presenter-laravel-5
+name: presenter-laravel-5
+provider: virtualbox
+
+authorize: ~/.ssh/id_rsa.pub
+
+keys:
+    - ~/.ssh/id_rsa
+
+folders:
+    - map: "../../"
+      to: "/home/vagrant/laravel-5"
+
+sites:
+    - map: presenter-laravel-5.app
+      to: "/home/vagrant/laravel-5/examples/laravel-5/public"
+
+databases:
+    - homestead
+
+# blackfire:
+#     - id: foo
+#       token: bar
+#       client-id: foo
+#       client-token: bar
+
+# ports:
+#     - send: 50000
+#       to: 5000
+#     - send: 7777
+#       to: 777
+#       protocol: udp

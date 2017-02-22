@@ -1,11 +1,28 @@
 language: php
 
+sudo: false
+
+cache:
+  directories:
+    - $HOME/.composer/cache
+
 php:
   - 5.4
-  - hhvm
+  - 5.5
+  - 5.6
+  - 7.0
+  - 7.1
+
+matrix:
 
 before_script:
   - curl -s http://getcomposer.org/installer | php
-  - php composer.phar install --dev
+  - php composer.phar install
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} != "7.1" ]]; then (cd examples/laravel-4 && cp ../../composer.phar . && php composer.phar install); fi
+  - if [[ ${TRAVIS_PHP_VERSION:0:3} != "5.4" ]] && [[ ${TRAVIS_PHP_VERSION:0:3} != "5.5" ]]; then (cd examples/laravel-5 && cp ../../composer.phar . && php composer.phar install); fi
 
-script: phpunit
+script:
+  - vendor/bin/php-cs-fixer fix --dry-run --diff
+  - vendor/bin/phpunit
+  - if [ -d "examples/laravel-4/vendor" ]; then (cd examples/laravel-4 && vendor/bin/phpunit); fi
+  - if [ -d "examples/laravel-5/vendor" ]; then (cd examples/laravel-5 && vendor/bin/phpunit); fi

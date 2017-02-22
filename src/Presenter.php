@@ -1,7 +1,9 @@
-<?php namespace Robbo\Presenter;
+<?php
 
-abstract class Presenter implements \ArrayAccess {
+namespace Robbo\Presenter;
 
+abstract class Presenter implements \ArrayAccess
+{
     /**
      * The object injected on Presenter construction.
      *
@@ -35,9 +37,8 @@ abstract class Presenter implements \ArrayAccess {
      */
     protected function __getDecorator()
     {
-        if (is_null(static::$__decorator))
-        {
-            static::$__decorator = new Decorator;
+        if (is_null(static::$__decorator)) {
+            static::$__decorator = new Decorator();
         }
 
         return static::$__decorator;
@@ -49,7 +50,6 @@ abstract class Presenter implements \ArrayAccess {
      * like above I want to make conflicts less likely.
      *
      * @param  \Robbo\Presenter\Decorator
-     * @return void
      */
     public static function setExtendedDecorator(Decorator $decorator)
     {
@@ -75,11 +75,13 @@ abstract class Presenter implements \ArrayAccess {
     public function offsetExists($offset)
     {
         // We only check isset on the array, if it is an object we return true as the object could be overloaded
-        if ( ! is_array($this->object)) return true;
+        if (! is_array($this->object)) {
+            return true;
+        }
 
-        if ($method = $this->getPresenterMethodFromVariable($offset))
-        {
+        if ($method = $this->getPresenterMethodFromVariable($offset)) {
             $result = $this->$method();
+
             return isset($result);
         }
 
@@ -89,7 +91,8 @@ abstract class Presenter implements \ArrayAccess {
     /**
      * Add ability to access properties like an array.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
+     *
      * @return mixed
      */
     public function offsetGet($offset)
@@ -100,15 +103,14 @@ abstract class Presenter implements \ArrayAccess {
     /**
      * Set variable or key value using array access.
      *
-     * @param  mixed $offset
-     * @param  mixed $value
-     * @return void
+     * @param mixed $offset
+     * @param mixed $value
      */
     public function offsetSet($offset, $value)
     {
-        if (is_array($this->object))
-        {
+        if (is_array($this->object)) {
             $this->object[$offset] = $value;
+
             return;
         }
 
@@ -118,14 +120,13 @@ abstract class Presenter implements \ArrayAccess {
     /**
      * Unset a variable or key value using array access.
      *
-     * @param  mixed $offset
-     * @return void
+     * @param mixed $offset
      */
     public function offsetUnset($offset)
     {
-        if (is_array($this->object))
-        {
+        if (is_array($this->object)) {
             unset($this->object[$offset]);
+
             return;
         }
 
@@ -135,13 +136,13 @@ abstract class Presenter implements \ArrayAccess {
     /**
      * Pass any unknown variable calls to present{$variable} or fall through to the injected object.
      *
-     * @param  string $var
+     * @param string $var
+     *
      * @return mixed
      */
     public function __get($var)
     {
-        if ($method = $this->getPresenterMethodFromVariable($var))
-        {
+        if ($method = $this->getPresenterMethodFromVariable($var)) {
             return $this->$method();
         }
 
@@ -151,14 +152,14 @@ abstract class Presenter implements \ArrayAccess {
     /**
      * Pass any unknown methods through to the inject object.
      *
-     * @param  string $method
-     * @param  array  $arguments
+     * @param string $method
+     * @param array  $arguments
+     *
      * @return mixed
      */
     public function __call($method, $arguments)
     {
-        if (is_object($this->object))
-        {
+        if (is_object($this->object)) {
             $value = call_user_func_array(array($this->object, $method), $arguments);
 
             return $this->__getDecorator()->decorate($value);
@@ -168,21 +169,21 @@ abstract class Presenter implements \ArrayAccess {
     }
 
     /**
-     * Allow ability to run isset() on a variable
+     * Allow ability to run isset() on a variable.
      *
-     * @param  string $name
-     * @return boolean
+     * @param string $name
+     *
+     * @return bool
      */
     public function __isset($name)
     {
-        if ($method = $this->getPresenterMethodFromVariable($name))
-        {
+        if ($method = $this->getPresenterMethodFromVariable($name)) {
             $result = $this->$method();
+
             return isset($result);
         }
 
-        if (is_array($this->object))
-        {
+        if (is_array($this->object)) {
             return isset($this->object[$name]);
         }
 
@@ -190,15 +191,15 @@ abstract class Presenter implements \ArrayAccess {
     }
 
     /**
-     * Allow to unset a variable through the presenter
+     * Allow to unset a variable through the presenter.
      *
      * @param string $name
      */
     public function __unset($name)
     {
-        if (is_array($this->object))
-        {
+        if (is_array($this->object)) {
             unset($this->object[$name]);
+
             return;
         }
 
@@ -208,14 +209,14 @@ abstract class Presenter implements \ArrayAccess {
     /**
      * Fetch the 'present' method name for the given variable.
      *
-     * @param  string       $variable
+     * @param string $variable
+     *
      * @return string|null
      */
     protected function getPresenterMethodFromVariable($variable)
     {
-        $method = 'present'.str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $variable)));
-        if (method_exists($this, $method))
-        {
+        $method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $variable)));
+        if (method_exists($this, $method)) {
             return $method;
         }
     }
