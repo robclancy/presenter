@@ -22,7 +22,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
             new Decorator
         );
 
-        $view = new View($factory, m::mock('Illuminate\View\Engines\EngineInterface'), 'test', 'test/path');
+        $view = new View($factory, m::mock(test_engine_interface()), 'test', 'test/path');
 
         $view->with('presenter', new ViewPresentableStub);
 
@@ -38,7 +38,7 @@ class ViewTest extends PHPUnit_Framework_TestCase {
             new Decorator
         );
 
-        $view = new View($factory, m::mock('Illuminate\View\Engines\EngineInterface'), 'test', 'test/path');
+        $view = new View($factory, m::mock(test_engine_interface()), 'test', 'test/path');
 
         $data = array(
             'presenter' => new ViewPresentableStub
