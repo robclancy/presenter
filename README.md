@@ -21,7 +21,6 @@ This library provides a simple class to help make a `Presenter` for your objects
 	- <a href="#array-usage">Array Usage</a>
 	- <a href="#extending-the-decorator">Extending the Decorator</a>
 - <a href="#change-log">Change Log</a>
-- <a href="#license">License</a>
 
 ## Installation
 
@@ -266,6 +265,9 @@ And that is all there is to it. You can easily automate the creation of presente
 
 
 ## Change Log
+
+#### 1.3.3
+- updated tests to better cover Laravel versions after 5.4 and changed the license to MIT
 
 #### 1.3.2
 - updated to work with `laravel 5.4.x`, only actual changes that aren't style or tests
