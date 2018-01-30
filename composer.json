@@ -10,7 +10,6 @@
             "email": "robbo.clancy@gmail.com"
         }
     ],
-    "require": {},
     "require-dev": {
       "illuminate/view": ">=5.4",
       "friendsofphp/php-cs-fixer": "^2.1",
