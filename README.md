@@ -305,8 +305,3 @@ And that is all there is to it. You can easily automate the creation of presente
 #### 1.0.0
 
 - Initial Release
-
-
-### License
-
-Presenter is released under the [DBAD](http://www.dbad-license.org) license. Do what you want just **d**on't **b**e **a** **d**ick.

@@ -3,7 +3,7 @@
     "description": "Decorate your objects using presenters. Primarily to keep presentation logic out of your models.",
     "type": "library",
     "keywords": ["decorator", "presenter", "laravel"],
-    "license": "DBAD",
+    "license": "MIT",
     "authors": [
         {
             "name": "Robbo",
