@@ -22,6 +22,6 @@ script:
   - vendor/bin/php-cs-fixer fix --dry-run --diff
   - vendor/bin/phpunit
   - (cd examples/laravel-5 && vendor/bin/phpunit)
-  - composer require laravel/framework:5.4 && vendor/bin/phpunit
-  - composer require laravel/framework:5.5 && vendor/bin/phpunit
+  - composer require laravel/framework:5.4.* && vendor/bin/phpunit
+  - composer require laravel/framework:5.5.* && vendor/bin/phpunit
   - composer require laravel/framework:5.6.x@dev && vendor/bin/phpunit
