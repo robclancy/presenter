@@ -69,7 +69,7 @@ abstract class Presenter implements \ArrayAccess
     /*
      * This will be called when isset() is called via array access.
      *
-     * @param  mixed $offset
+     * @param mixed $offset
      * @return boolean
      */
     public function offsetExists($offset)
@@ -153,14 +153,14 @@ abstract class Presenter implements \ArrayAccess
      * Pass any unknown methods through to the inject object.
      *
      * @param string $method
-     * @param array  $arguments
+     * @param array $arguments
      *
      * @return mixed
      */
     public function __call($method, $arguments)
     {
         if (is_object($this->object)) {
-            $value = call_user_func_array(array($this->object, $method), $arguments);
+            $value = call_user_func_array([$this->object, $method], $arguments);
 
             return $this->__getDecorator()->decorate($value);
         }
@@ -215,7 +215,7 @@ abstract class Presenter implements \ArrayAccess
      */
     protected function getPresenterMethodFromVariable($variable)
     {
-        $method = 'present'.str_replace(' ', '', ucwords(str_replace(array('-', '_'), ' ', $variable)));
+        $method = 'present'.str_replace(' ', '', ucwords(str_replace(['-', '_'], ' ', $variable)));
         if (method_exists($this, $method)) {
             return $method;
         }

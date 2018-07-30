@@ -2,8 +2,8 @@
 
 use Robbo\Presenter\Presenter;
 
-class PresenterTest extends PHPUnit_Framework_TestCase {
-
+class PresenterTest extends PHPUnit_Framework_TestCase
+{
     public function testPresenterVariableCalls()
     {
         $presenter = new PresenterStub(new InjectStub);
@@ -49,7 +49,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
     public function testArrayPresenterVariableCalls()
     {
-        $presenter = new PresenterStub(array('testVar' => 'testvar'));
+        $presenter = new PresenterStub(['testVar' => 'testvar']);
 
         $this->assertEquals($presenter->testVar, 'testvar');
         $this->assertEquals($presenter['testVar'], 'testvar');
@@ -61,13 +61,13 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
      */
     public function testArrayMethodCallException()
     {
-        $presenter = new PresenterStub(array('testVar' => 'testvar'));
+        $presenter = new PresenterStub(['testVar' => 'testvar']);
         $presenter->someMethod();
     }
 
     public function testArrayIsset()
     {
-        $presenter = new PresenterStub(array('testVar' => 'testvar'));
+        $presenter = new PresenterStub(['testVar' => 'testvar']);
 
         $this->assertTrue(isset($presenter['testVar']));
         $this->assertFalse(isset($presenter['unsetVar']));
@@ -88,7 +88,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
     public function testArraySet()
     {
-        $presenter = new PresenterStub(array('testVar' => 'testvar'));
+        $presenter = new PresenterStub(['testVar' => 'testvar']);
         $presenter['testNewVar'] = 'number 2';
 
         $this->assertEquals($presenter['testNewVar'], 'number 2');
@@ -97,7 +97,7 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
 
     public function testArrayUnset()
     {
-        $presenter = new PresenterStub(array('testVar' => 'testvar'));
+        $presenter = new PresenterStub(['testVar' => 'testvar']);
 
         $this->assertEquals($presenter['testVar'], 'testvar');
 
@@ -111,11 +111,10 @@ class PresenterTest extends PHPUnit_Framework_TestCase {
         unset($presenter['testVar']);
         $this->assertFalse(isset($presenter->testVar));
     }
-
 }
 
-class InjectStub {
-
+class InjectStub
+{
     public $testVar = 'testvar';
 
     public function testMethod()
@@ -124,8 +123,8 @@ class InjectStub {
     }
 }
 
-class PresenterStub extends Presenter {
-
+class PresenterStub extends Presenter
+{
     public $testVar2 = 'testvar2';
 
     public function testMethod2()
@@ -139,8 +138,8 @@ class PresenterStub extends Presenter {
     }
 }
 
-class PresenterStub2 extends Presenter {
-
+class PresenterStub2 extends Presenter
+{
     public $testVar3 = 'testvar3';
 
     public function testMethod3()

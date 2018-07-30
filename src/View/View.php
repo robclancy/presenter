@@ -10,7 +10,7 @@ class View extends BaseView
      * Add a piece of data to the view.
      *
      * @param string|array $key
-     * @param mixed        $value
+     * @param mixed $value
      *
      * @return \Illuminate\View\View
      */

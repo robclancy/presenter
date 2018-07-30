@@ -6,8 +6,8 @@ use Robbo\Presenter\Presenter;
 use Robbo\Presenter\Decorator;
 use Robbo\Presenter\PresentableInterface;
 
-class ViewTest extends PHPUnit_Framework_TestCase {
-
+class ViewTest extends PHPUnit_Framework_TestCase
+{
     public function tearDown()
     {
         m::close();
@@ -40,9 +40,9 @@ class ViewTest extends PHPUnit_Framework_TestCase {
 
         $view = new View($factory, m::mock(test_engine_interface()), 'test', 'test/path');
 
-        $data = array(
+        $data = [
             'presenter' => new ViewPresentableStub
-        );
+        ];
 
         $view->with($data);
 
@@ -50,12 +50,14 @@ class ViewTest extends PHPUnit_Framework_TestCase {
     }
 }
 
-class ViewPresentableStub implements PresentableInterface {
-
+class ViewPresentableStub implements PresentableInterface
+{
     public function getPresenter()
     {
         return new ViewPresenterStub($this);
     }
 }
 
-class ViewPresenterStub extends Presenter {}
+class ViewPresenterStub extends Presenter
+{
+}

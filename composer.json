@@ -12,7 +12,7 @@
     ],
     "require-dev": {
       "illuminate/view": ">=5.4",
-      "friendsofphp/php-cs-fixer": "^2.1",
+      "friendsofphp/php-cs-fixer": "2.12.*",
       "phpunit/phpunit": "5.7.*",
       "mockery/mockery": "^0.9.8"
     },

@@ -3,8 +3,8 @@
 use Robbo\Presenter\Decorator;
 use Illuminate\Support\Collection;
 
-class DecoratorTest extends PHPUnit_Framework_TestCase {
-
+class DecoratorTest extends PHPUnit_Framework_TestCase
+{
     public function testPresentableToPresenter()
     {
         $decorator = new Decorator;
@@ -15,15 +15,15 @@ class DecoratorTest extends PHPUnit_Framework_TestCase {
 
     public function testPresentablesToPresenters()
     {
-        $from = array(
+        $from = [
             'string' => 'string',
-            'array' => array('test' => 'test'),
+            'array' => ['test' => 'test'],
             'presentable' => new PresentableStub,
-            'recurseMe' => array(array('presentable' => new PresentableStub)),
-            'collection' => new Collection(array(
+            'recurseMe' => [['presentable' => new PresentableStub]],
+            'collection' => new Collection([
                 'presentable' => new PresentableStub
-            ))
-        );
+            ])
+        ];
 
         $decorator = new Decorator;
         $to = $decorator->decorate($from);

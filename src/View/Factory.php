@@ -37,12 +37,12 @@ class Factory extends BaseFactory
      * Get a evaluated view contents for the given view.
      *
      * @param string $view
-     * @param array  $data
-     * @param array  $mergeData
+     * @param array $data
+     * @param array $mergeData
      *
      * @return Illuminate\View\View
      */
-    public function make($view, $data = array(), $mergeData = array())
+    public function make($view, $data = [], $mergeData = [])
     {
         $path = $this->finder->find($view);
 
@@ -55,7 +55,7 @@ class Factory extends BaseFactory
      * Add a piece of shared data to the factory.
      *
      * @param string $key
-     * @param mixed  $value
+     * @param mixed $value
      */
     public function share($key, $value = null)
     {

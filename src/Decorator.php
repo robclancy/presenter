@@ -10,7 +10,7 @@ class Decorator
     /*
      * If this variable implements Robbo\Presenter\PresentableInterface then turn it into a presenter.
      *
-     * @param  mixed $value
+     * @param mixed $value
      * @return mixed $value
     */
     public function decorate($value)
