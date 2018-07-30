@@ -140,13 +140,15 @@ abstract class Presenter implements \ArrayAccess
      *
      * @return mixed
      */
-    public function __get($var)
+    public function __get($property)
     {
-        if ($method = $this->getPresenterMethodFromVariable($var)) {
-            return $this->$method();
-        }
+        
+        if (method_exists($this, $property))
+	{
+		return $this->{$property}();
+	}
 
-        return $this->__getDecorator()->decorate(is_array($this->object) ? $this->object[$var] : $this->object->$var);
+        return $this->__getDecorator()->decorate(is_array($this->object) ? $this->object[$property] : $this->object->$property);
     }
 
     /**
