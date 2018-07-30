@@ -266,6 +266,11 @@ And that is all there is to it. You can easily automate the creation of presente
 
 ## Change Log
 
+#### 1.4.0
+- added Laravel package discovery, thanks [luisdalmolin](https://github.com/luisdalmolin)
+- use the contract for the Laravel view factory instead of the concrete class, this fixes incompatibilities with https://github.com/fntneves/laravel-transactional-events
+- updated https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases and have it run on tests too
+
 #### 1.3.3
 - updated tests to better cover Laravel versions after 5.4 and changed the license to MIT
 
@@ -280,7 +285,7 @@ And that is all there is to it. You can easily automate the creation of presente
 #### 1.3.0
 - updated to work with `laravel 4.2.x`, to use in `4.1.x` stay on version `1.2.*`
 - moved to PSR-4 and now PHP 5.4+
-- small refactor and check `isset` again 'present' methods, thanks [BenConstable](https://github.com/robclancy/presenter/pull/25)
+- small refactor and check `isset` against 'present' methods, thanks [BenConstable](https://github.com/robclancy/presenter/pull/25)
 
 #### 1.2.0
 - presenters can now be nested, thanks [alexwhitman](https://github.com/robclancy/presenter/pull/10)
