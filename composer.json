@@ -20,5 +20,12 @@
       "psr-4": {
         "Robbo\\Presenter\\": "src/"
       }
+    },
+    "extra": {
+      "laravel": {
+        "providers": [
+          "Robbo\\Presenter\\PresenterServiceProvider"
+        ]
+      }
     }
 }
