@@ -1,8 +1,9 @@
 <?php
 
 use Robbo\Presenter\Presenter;
+use PHPUnit\Framework\TestCase;
 
-class PresenterTest extends PHPUnit_Framework_TestCase
+class PresenterTest extends TestCase
 {
     public function testPresenterVariableCalls()
     {

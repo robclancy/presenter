@@ -4,11 +4,12 @@ use Mockery as m;
 use Robbo\Presenter\Presenter;
 use Robbo\Presenter\Decorator;
 use Robbo\Presenter\View\View;
+use PHPUnit\Framework\TestCase;
 use Illuminate\Support\Collection;
 use Robbo\Presenter\View\Factory;
 use Robbo\Presenter\PresentableInterface;
 
-class ViewFactoryTest extends PHPUnit_Framework_TestCase
+class ViewFactoryTest extends TestCase
 {
     public function tearDown()
     {
