@@ -1,9 +1,10 @@
 <?php
 
 use Robbo\Presenter\Decorator;
+use PHPUnit\Framework\TestCase;
 use Illuminate\Support\Collection;
 
-class DecoratorTest extends PHPUnit_Framework_TestCase
+class DecoratorTest extends TestCase
 {
     public function testPresentableToPresenter()
     {
