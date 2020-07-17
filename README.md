@@ -266,7 +266,14 @@ And that is all there is to it. You can easily automate the creation of presente
 
 ## Change Log
 
+#### 2.0.0
+
+- minimum Laravel version is now 5.8
+- minimum PHP version is now 7.1
+- improved the view factory integration which should be future proof
+
 #### 1.4.0
+
 - added Laravel package discovery, thanks [luisdalmolin](https://github.com/luisdalmolin)
 - use the contract for the Laravel view factory instead of the concrete class, this fixes incompatibilities with https://github.com/fntneves/laravel-transactional-events
 - updated https://github.com/FriendsOfPHP/PHP-CS-Fixer/releases and have it run on tests too
