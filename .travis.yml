@@ -18,11 +18,9 @@ matrix:
 before_script:
   - curl -s http://getcomposer.org/installer | php
   - php composer.phar install
-  - (cd examples/laravel-5 && cp ../../composer.phar . && php composer.phar install)
+  - php composer.phar install -d examples/laravel-5
 
 script:
   - vendor/bin/php-cs-fixer fix --dry-run --diff
   - vendor/bin/phpunit
   - (cd examples/laravel-5 && vendor/bin/phpunit)
-  - mv composer.json composer.json.orig
-  - cp -f composer.json.orig composer.json && rm -f composer.lock && rm -rf vendor && composer require laravel/framework:5.4.* && vendor/bin/phpunit
