@@ -1,13 +1,13 @@
 <?php
 
 use Mockery as m;
-use Robbo\Presenter\Presenter;
 use Robbo\Presenter\Decorator;
-use Robbo\Presenter\View\View;
+use Robbo\Presenter\Presenter;
 use PHPUnit\Framework\TestCase;
-use Illuminate\Support\Collection;
 use Robbo\Presenter\View\Factory;
+use Illuminate\Support\Collection;
 use Robbo\Presenter\PresentableInterface;
+use Illuminate\Contracts\View\View as ViewContract;
 
 class ViewFactoryTest extends TestCase
 {
@@ -57,6 +57,10 @@ class FactoryStub extends Factory
     public function getEngineFromPath($path)
     {
         return m::mock(test_engine_interface());
+    }
+
+    public function callCreator(ViewContract $view)
+    {
     }
 }
 

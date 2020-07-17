@@ -2,10 +2,10 @@
 
 namespace Robbo\Presenter\View;
 
-use Robbo\Presenter\Presenter;
 use Robbo\Presenter\Decorator;
-use Illuminate\Contracts\Events\Dispatcher;
+use Robbo\Presenter\Presenter;
 use Illuminate\View\ViewFinderInterface;
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory as BaseFactory;
 
@@ -34,20 +34,15 @@ class Factory extends BaseFactory
     }
 
     /**
-     * Get a evaluated view contents for the given view.
+     * Create a new view instance from the given arguments.
      *
-     * @param string $view
-     * @param array $data
-     * @param array $mergeData
-     *
-     * @return Illuminate\View\View
+     * @param  string  $view
+     * @param  string  $path
+     * @param  \Illuminate\Contracts\Support\Arrayable|array  $data
+     * @return \Illuminate\Contracts\View\View
      */
-    public function make($view, $data = [], $mergeData = [])
+    protected function viewInstance($view, $path, $data)
     {
-        $path = $this->finder->find($view);
-
-        $data = array_merge($mergeData, $this->parseData($data));
-
         return new View($this, $this->getEngineFromPath($path), $view, $path, $this->decorate($data));
     }
 
