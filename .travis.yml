@@ -7,7 +7,6 @@ cache:
     - $HOME/.composer/cache
 
 php:
-  - 5.6
   - 7.0
   - 7.1
   - 7.2
@@ -28,5 +27,3 @@ script:
   - (cd examples/laravel-5 && vendor/bin/phpunit)
   - mv composer.json composer.json.orig
   - cp -f composer.json.orig composer.json && rm -f composer.lock && rm -rf vendor && composer require laravel/framework:5.4.* && vendor/bin/phpunit
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} != "5.6" ]]; then cp -f composer.json.orig composer.json && rm -f composer.lock && rm -rf vendor && composer require laravel/framework:5.5.* && vendor/bin/phpunit; fi
-  - if [[ ${TRAVIS_PHP_VERSION:0:3} != "5.6" && ${TRAVIS_PHP_VERSION:0:3} != "7.0" ]]; then cp -f composer.json.orig composer.json && rm -f composer.lock && rm -rf vendor && composer require laravel/framework:5.6.* && vendor/bin/phpunit; fi
