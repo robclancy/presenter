@@ -72,7 +72,7 @@ abstract class Presenter implements \ArrayAccess
      * @param mixed $offset
      * @return boolean
      */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         // We only check isset on the array, if it is an object we return true as the object could be overloaded
         if (! is_array($this->object)) {
@@ -95,7 +95,7 @@ abstract class Presenter implements \ArrayAccess
      *
      * @return mixed
      */
-    public function offsetGet($offset)
+    public function offsetGet($offset): mixed
     {
         return $this->__get($offset);
     }
@@ -106,7 +106,7 @@ abstract class Presenter implements \ArrayAccess
      * @param mixed $offset
      * @param mixed $value
      */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
         if (is_array($this->object)) {
             $this->object[$offset] = $value;
@@ -122,7 +122,7 @@ abstract class Presenter implements \ArrayAccess
      *
      * @param mixed $offset
      */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
         if (is_array($this->object)) {
             unset($this->object[$offset]);
