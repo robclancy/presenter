@@ -25,8 +25,8 @@ jobs:
 
       - name: Install Composer dependencies
         run: |
-          composer install --prefer-dist --no-interaction --no-progress --ignore-platform-reqs
-          composer install -d examples/laravel-5 --prefer-dist --no-interaction --no-progress --ignore-platform-reqs
+          composer install --prefer-dist --no-interaction --no-progress ${{ matrix.php == '8.0' && '--ignore-platform-reqs'}}
+          composer install -d examples/laravel-5 --prefer-dist --no-interaction --no-progress --ignore-platform-reqs ${{ matrix.php == '8.0' && '--ignore-platform-reqs'}}
 
       - name: Execute tests
         run: vendor/bin/phpunit
