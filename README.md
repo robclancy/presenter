@@ -6,7 +6,7 @@ Decorate your objects using presenters. Primarily to keep presentation logic out
 
 This library provides a simple class to help make a `Presenter` for your objects or arrays. It also has little extras for use within Laravel with minimal extra code in your controllers (in most cases no extra code).
 
-[![Build Status](https://secure.travis-ci.org/robclancy/presenter.png)](http://travis-ci.org/robclancy/presenter)
+![Tests](https://github.com/robclancy/presenter/actions/workflows/tests.yml/badge.svg?branch=2.x)
 
 ## Table of Contents
 
@@ -29,7 +29,7 @@ This library provides a simple class to help make a `Presenter` for your objects
 Add `robclancy/presenter` to the "require" section of your `composer.json` file.
 
 ```json
-	"robclancy/presenter": "1.4.*"
+	"robclancy/presenter": "2.0.*"
 ```
 
 Run `composer update` to get the latest version of the package.
