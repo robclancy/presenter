@@ -1,0 +1,10 @@
+name: presenter-laravel-5
+recipe: laravel
+config:
+  webroot: public
+  php: 7.1
+services:
+  appserver:
+    overrides:
+      volumes:
+        - ../../src:/app/src

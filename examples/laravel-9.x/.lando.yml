@@ -1,0 +1,10 @@
+name: presenter-laravel-9
+recipe: laravel
+config:
+  webroot: public
+  php: '8.0'
+services:
+  appserver:
+    overrides:
+      volumes:
+        - ../../src:/app/src
