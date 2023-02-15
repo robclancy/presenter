@@ -9,7 +9,7 @@ use Robbo\Presenter\View\View;
 
 class ViewTest extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }

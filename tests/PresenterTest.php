@@ -57,11 +57,10 @@ class PresenterTest extends TestCase
         $this->assertEquals($presenter->testVar2, 'testvar2');
     }
 
-    /**
-     * @expectedException BadMethodCallException
-     */
     public function testArrayMethodCallException()
     {
+        $this->expectException(\BadMethodCallException::class);
+
         $presenter = new PresenterStub(['testVar' => 'testvar']);
         $presenter->someMethod();
     }

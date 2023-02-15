@@ -1,4 +1,4 @@
-name: PHP8 Tests
+name: Tests
 
 on: [push, pull_request]
 
@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: true
       matrix:
-        php: ['8.0']
+        php: ['8.0', 8.1]
 
     name: PHP ${{ matrix.php }}
 
@@ -25,9 +25,12 @@ jobs:
 
       - name: Install Composer dependencies
         run: |
-          composer install --prefer-dist --no-interaction --no-progress --ignore-platform-reqs
-          composer install -d examples/laravel-5.x --prefer-dist --no-interaction --no-progress --ignore-platform-reqs
+          composer install --prefer-dist --no-interaction --no-progress
           composer install -d examples/laravel-9.x --prefer-dist --no-interaction --no-progress
+          composer run post-root-package-install -d examples/laravel-9.x
+          composer run post-create-project-cmd -d examples/laravel-9.x
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: |
+          vendor/bin/phpunit
+          cd examples/laravel-9.x && vendor/bin/phpunit
