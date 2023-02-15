@@ -11,7 +11,7 @@ use Robbo\Presenter\View\Factory;
 
 class ViewFactoryTest extends TestCase
 {
-    public function tearDown()
+    public function tearDown(): void
     {
         m::close();
     }
