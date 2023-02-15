@@ -1,11 +1,11 @@
 <?php
 
 use Mockery as m;
-use Robbo\Presenter\View\View;
-use Robbo\Presenter\Presenter;
-use Robbo\Presenter\Decorator;
 use PHPUnit\Framework\TestCase;
+use Robbo\Presenter\Decorator;
 use Robbo\Presenter\PresentableInterface;
+use Robbo\Presenter\Presenter;
+use Robbo\Presenter\View\View;
 
 class ViewTest extends TestCase
 {
@@ -42,7 +42,7 @@ class ViewTest extends TestCase
         $view = new View($factory, m::mock(test_engine_interface()), 'test', 'test/path');
 
         $data = [
-            'presenter' => new ViewPresentableStub
+            'presenter' => new ViewPresentableStub,
         ];
 
         $view->with($data);

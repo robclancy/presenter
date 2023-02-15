@@ -22,7 +22,7 @@ abstract class Presenter implements \ArrayAccess
     /**
      * Create the Presenter and store the object we are presenting.
      *
-     * @param mixed $object
+     * @param  mixed  $object
      */
     public function __construct($object)
     {
@@ -91,8 +91,7 @@ abstract class Presenter implements \ArrayAccess
     /**
      * Add ability to access properties like an array.
      *
-     * @param mixed $offset
-     *
+     * @param  mixed  $offset
      * @return mixed
      */
     public function offsetGet($offset)
@@ -103,8 +102,8 @@ abstract class Presenter implements \ArrayAccess
     /**
      * Set variable or key value using array access.
      *
-     * @param mixed $offset
-     * @param mixed $value
+     * @param  mixed  $offset
+     * @param  mixed  $value
      */
     public function offsetSet($offset, $value)
     {
@@ -120,7 +119,7 @@ abstract class Presenter implements \ArrayAccess
     /**
      * Unset a variable or key value using array access.
      *
-     * @param mixed $offset
+     * @param  mixed  $offset
      */
     public function offsetUnset($offset)
     {
@@ -136,8 +135,7 @@ abstract class Presenter implements \ArrayAccess
     /**
      * Pass any unknown variable calls to present{$variable} or fall through to the injected object.
      *
-     * @param string $var
-     *
+     * @param  string  $var
      * @return mixed
      */
     public function __get($var)
@@ -152,9 +150,8 @@ abstract class Presenter implements \ArrayAccess
     /**
      * Pass any unknown methods through to the inject object.
      *
-     * @param string $method
-     * @param array $arguments
-     *
+     * @param  string  $method
+     * @param  array  $arguments
      * @return mixed
      */
     public function __call($method, $arguments)
@@ -171,8 +168,7 @@ abstract class Presenter implements \ArrayAccess
     /**
      * Allow ability to run isset() on a variable.
      *
-     * @param string $name
-     *
+     * @param  string  $name
      * @return bool
      */
     public function __isset($name)
@@ -193,7 +189,7 @@ abstract class Presenter implements \ArrayAccess
     /**
      * Allow to unset a variable through the presenter.
      *
-     * @param string $name
+     * @param  string  $name
      */
     public function __unset($name)
     {
@@ -209,8 +205,7 @@ abstract class Presenter implements \ArrayAccess
     /**
      * Fetch the 'present' method name for the given variable.
      *
-     * @param string $variable
-     *
+     * @param  string  $variable
      * @return string|null
      */
     protected function getPresenterMethodFromVariable($variable)

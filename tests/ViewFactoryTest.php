@@ -1,13 +1,13 @@
 <?php
 
-use Mockery as m;
-use Robbo\Presenter\Decorator;
-use Robbo\Presenter\Presenter;
-use PHPUnit\Framework\TestCase;
-use Robbo\Presenter\View\Factory;
-use Illuminate\Support\Collection;
-use Robbo\Presenter\PresentableInterface;
 use Illuminate\Contracts\View\View as ViewContract;
+use Illuminate\Support\Collection;
+use Mockery as m;
+use PHPUnit\Framework\TestCase;
+use Robbo\Presenter\Decorator;
+use Robbo\Presenter\PresentableInterface;
+use Robbo\Presenter\Presenter;
+use Robbo\Presenter\View\Factory;
 
 class ViewFactoryTest extends TestCase
 {
@@ -22,8 +22,8 @@ class ViewFactoryTest extends TestCase
             'meh' => 'zomg',
             'presentable' => new PresentableStub,
             'collection' => new Collection([
-                'presentable' => new PresentableStub
-            ])
+                'presentable' => new PresentableStub,
+            ]),
         ];
 
         $factory = $this->getFactory();

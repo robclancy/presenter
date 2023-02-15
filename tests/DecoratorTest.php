@@ -1,8 +1,8 @@
 <?php
 
-use Robbo\Presenter\Decorator;
-use PHPUnit\Framework\TestCase;
 use Illuminate\Support\Collection;
+use PHPUnit\Framework\TestCase;
+use Robbo\Presenter\Decorator;
 
 class DecoratorTest extends TestCase
 {
@@ -22,8 +22,8 @@ class DecoratorTest extends TestCase
             'presentable' => new PresentableStub,
             'recurseMe' => [['presentable' => new PresentableStub]],
             'collection' => new Collection([
-                'presentable' => new PresentableStub
-            ])
+                'presentable' => new PresentableStub,
+            ]),
         ];
 
         $decorator = new Decorator;

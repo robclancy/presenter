@@ -8,6 +8,6 @@ class UserPresenter extends Presenter
 {
     public function presentFullName()
     {
-        return $this->first_name . ' ' . $this->last_name;
+        return $this->first_name.' '.$this->last_name;
     }
 }

@@ -2,10 +2,9 @@
 
 namespace App;
 
-use Robbo\Presenter\PresentableInterface;
-
-use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
+use Robbo\Presenter\PresentableInterface;
 
 class User extends Authenticatable implements PresentableInterface
 {

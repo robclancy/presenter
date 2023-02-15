@@ -2,12 +2,12 @@
 
 namespace Robbo\Presenter\View;
 
-use Robbo\Presenter\Decorator;
-use Robbo\Presenter\Presenter;
-use Illuminate\View\ViewFinderInterface;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\View\Engines\EngineResolver;
 use Illuminate\View\Factory as BaseFactory;
+use Illuminate\View\ViewFinderInterface;
+use Robbo\Presenter\Decorator;
+use Robbo\Presenter\Presenter;
 
 class Factory extends BaseFactory
 {
@@ -20,11 +20,6 @@ class Factory extends BaseFactory
 
     /**
      * Create a new view factory instance.
-     *
-     * @param \Illuminate\View\Engines\EngineResolver $engines
-     * @param \Illuminate\View\ViewFinderInterface $finder
-     * @param \Illuminate\Contracts\Events\Dispatcher $events
-     * @param \Robbo\Presenter\Decorator $decorator
      */
     public function __construct(EngineResolver $engines, ViewFinderInterface $finder, Dispatcher $events, Decorator $decorator)
     {
@@ -49,8 +44,8 @@ class Factory extends BaseFactory
     /**
      * Add a piece of shared data to the factory.
      *
-     * @param string $key
-     * @param mixed $value
+     * @param  string  $key
+     * @param  mixed  $value
      */
     public function share($key, $value = null)
     {
@@ -64,8 +59,7 @@ class Factory extends BaseFactory
     /**
      * Decorate an object with a presenter.
      *
-     * @param mixed $value
-     *
+     * @param  mixed  $value
      * @return mixed
      */
     public function decorate($value)

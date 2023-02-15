@@ -1,7 +1,7 @@
 <?php
 
-use Robbo\Presenter\Presenter;
 use PHPUnit\Framework\TestCase;
+use Robbo\Presenter\Presenter;
 
 class PresenterTest extends TestCase
 {
@@ -108,7 +108,7 @@ class PresenterTest extends TestCase
         $presenter = new PresenterStub(new InjectStub);
 
         $this->assertEquals($presenter->testVar, 'testvar');
-        
+
         unset($presenter['testVar']);
         $this->assertFalse(isset($presenter->testVar));
     }
