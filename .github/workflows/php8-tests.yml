@@ -28,7 +28,8 @@ jobs:
           composer install --prefer-dist --no-interaction --no-progress --ignore-platform-reqs
           composer install -d examples/laravel-6.x --prefer-dist --no-interaction --no-progress --ignore-platform-reqs
           composer install -d examples/laravel-9.x --prefer-dist --no-interaction --no-progress
-
+          composer run post-root-package-install -d examples/laravel-9.x
+          composer run post-create-project-cmd -d examples/laravel-9.x
       - name: Execute tests
         run: |
           vendor/bin/phpunit
