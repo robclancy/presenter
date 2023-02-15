@@ -1,8 +1,8 @@
-name: presenter-laravel-5
+name: presenter-laravel-6
 recipe: laravel
 config:
   webroot: public
-  php: 7.1
+  php: '8.0'
 services:
   appserver:
     overrides:
