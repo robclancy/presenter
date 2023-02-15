@@ -37,4 +37,4 @@ jobs:
         run: |
           vendor/bin/phpunit
           (cd examples/laravel-9.x && vendor/bin/phpunit)
-          ${{ matrix.php == '8.1' && '(cd examples/laravel-10.x && vendor/bin/phpunit)'}}
+          ${{ matrix.php == '8.1' && '(cd examples/laravel-10.x && vendor/bin/phpunit)' || ''}}
