@@ -30,4 +30,7 @@ jobs:
           composer install -d examples/laravel-9.x --prefer-dist --no-interaction --no-progress
 
       - name: Execute tests
-        run: vendor/bin/phpunit
+        run: |
+          vendor/bin/phpunit
+          cd examples/laravel-5.x && vendor/bin/phpunit
+          cd examples/laravel-9.x && vendor/bin/phpunit
