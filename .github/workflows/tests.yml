@@ -29,9 +29,9 @@ jobs:
           composer install -d examples/laravel-9.x --prefer-dist --no-interaction --no-progress
           composer run post-root-package-install -d examples/laravel-9.x
           composer run post-create-project-cmd -d examples/laravel-9.x
-          ${{ matrix.php == '8.1' && 'composer install -d examples/laravel-10.x --prefer-dist --no-interaction --no-progress'}}
-          ${{ matrix.php == '8.1' && 'composer run post-root-package-install -d examples/laravel-10.x'}}
-          ${{ matrix.php == '8.1' && 'composer run post-create-project-cmd -d examples/laravel-10.x'}}
+          ${{ matrix.php == '8.1' && 'composer install -d examples/laravel-10.x --prefer-dist --no-interaction --no-progress' || ''}}
+          ${{ matrix.php == '8.1' && 'composer run post-root-package-install -d examples/laravel-10.x' || ''}}
+          ${{ matrix.php == '8.1' && 'composer run post-create-project-cmd -d examples/laravel-10.x' || ''}}
 
       - name: Execute tests
         run: |
