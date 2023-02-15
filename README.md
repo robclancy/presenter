@@ -24,25 +24,21 @@ This library provides a simple class to help make a `Presenter` for your objects
 
 ## Installation
 
-### Composer
+```bash
+composer require robclancy/presenter:^2.0
+```
+or 
 
 Add `robclancy/presenter` to the "require" section of your `composer.json` file.
-
 ```json
-	"robclancy/presenter": "2.0.*"
+"robclancy/presenter": "^2.0"
 ```
 
 Run `composer update` to get the latest version of the package.
 
-
-### Manually
-
-It's recommended that you use Composer, however you can download and install from this repository.
-
-
 ### Laravel
 
-This package comes with an optional service provider for Laravel 5.8+ so that you can automate some extra steps. You will need to have installed using the composer method above, then register the service provider with your application.
+This package comes with an optional service provider for Laravel 5.8+ < Laravel 10 so that you can automate some extra steps. You will need to have installed using the composer method above, then register the service provider with your application.
 
 Open `app/config/app.php` and find the `providers` key. Add
 ```
@@ -54,7 +50,6 @@ to the array at some point after
 ```
 
 Now presenters will automatically be created if using the <a href="#laravel-usage">laravel method</a> described below.
-
 
 ## Usage
 
@@ -76,7 +71,7 @@ class UserPresenter extends Robbo\Presenter\Presenter {
 ```
 
 Now our view should receive an instance of this presenter which would be created with something like `$user = new UserPresenter(new User);`. If we want to link to the users page all we have to do is call `$user->url()`. Now you have good separation of logic and an easy little class you can modify to add properties to your `User` in all areas.
-However you might not want to be calling methods like this, it could be inconsistent with what you are doing or you might want the code to look a little cleaner. That is where methods with the `present` prefix come in. All we do is update the presenter to the following.
+However, you might not want to be calling methods like this, it could be inconsistent with what you are doing, or you might want the code to look a little cleaner. That is where methods with the `present` prefix come in. All we do is update the presenter to the following.
 
 ```php
 
@@ -265,6 +260,12 @@ And that is all there is to it. You can easily automate the creation of presente
 
 
 ## Change Log
+
+#### 2.0.1
+
+- branched off 2.x to support < PHP 8.1
+- modernized the repository somewhat  
+- updated documentation
 
 #### 2.0.0
 
