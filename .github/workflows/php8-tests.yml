@@ -26,11 +26,11 @@ jobs:
       - name: Install Composer dependencies
         run: |
           composer install --prefer-dist --no-interaction --no-progress --ignore-platform-reqs
-          composer install -d examples/laravel-5.x --prefer-dist --no-interaction --no-progress --ignore-platform-reqs
+          composer install -d examples/laravel-6.x --prefer-dist --no-interaction --no-progress --ignore-platform-reqs
           composer install -d examples/laravel-9.x --prefer-dist --no-interaction --no-progress
 
       - name: Execute tests
         run: |
           vendor/bin/phpunit
-          cd examples/laravel-5.x && vendor/bin/phpunit
+          cd examples/laravel-6.x && vendor/bin/phpunit
           cd examples/laravel-9.x && vendor/bin/phpunit
