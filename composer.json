@@ -1,30 +1,33 @@
 {
-    "name": "robclancy/presenter",
-    "description": "Decorate your objects using presenters. Primarily to keep presentation logic out of your models.",
-    "type": "library",
-    "keywords": ["decorator", "presenter", "laravel"],
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Robbo",
-            "email": "robbo.clancy@gmail.com"
-        }
-    ],
-    "require-dev": {
-      "illuminate/view": ">=9.0",
-      "phpunit/phpunit": "^11.0",
-      "mockery/mockery": "~1.3.0"
-    },
-    "autoload": {
-      "psr-4": {
-        "Robbo\\Presenter\\": "src/"
+  "name": "robclancy/presenter",
+  "description": "Decorate your objects using presenters. Primarily to keep presentation logic out of your models.",
+  "type": "library",
+  "keywords": ["decorator", "presenter", "laravel"],
+  "license": "MIT",
+  "authors": [
+      {
+          "name": "Robbo",
+          "email": "robbo.clancy@gmail.com"
       }
-    },
-    "extra": {
-      "laravel": {
-        "providers": [
-          "Robbo\\Presenter\\PresenterServiceProvider"
-        ]
-      }
+  ],
+  "require": {
+    "php": "^8.1"
+  },
+  "require-dev": {
+    "illuminate/view": ">=9.0",
+    "phpunit/phpunit": "^11.0",
+    "mockery/mockery": "~1.3.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Robbo\\Presenter\\": "src/"
     }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Robbo\\Presenter\\PresenterServiceProvider"
+      ]
+    }
+  }
 }

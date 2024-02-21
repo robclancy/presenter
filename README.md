@@ -261,6 +261,11 @@ And that is all there is to it. You can easily automate the creation of presente
 
 ## Change Log
 
+#### 3.0
+
+- minimum PHP version is now 8.1
+- fixed PHP 8.1 ArrayAccess deprecations
+
 #### 2.0.1
 
 - branched off 2.x to support < PHP 8.1
